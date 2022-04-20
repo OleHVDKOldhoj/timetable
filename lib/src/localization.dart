@@ -13,6 +13,7 @@ import 'week.dart';
 /// * `es` – Spanish
 /// * `fr` – French
 /// * `hu` – Hungarian
+/// * `da` –Danish
 /// * `it` – Italian
 /// * `ja` – Japanese
 /// * `pt` – Portuguese
