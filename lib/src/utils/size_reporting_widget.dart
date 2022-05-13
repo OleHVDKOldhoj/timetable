@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 // Copied and modified from https://github.com/Limbou/expandable_page_view/blob/d692cff38f9e098ad5c020d80123a13ab2a53083/lib/size_reporting_widget.dart
 class SizeReportingWidget extends StatefulWidget {
   const SizeReportingWidget({
-    Key? key,
+    final Key? key,
     required this.onSizeChanged,
     required this.child,
   }) : super(key: key);
@@ -21,11 +21,11 @@ class _SizeReportingWidgetState extends State<SizeReportingWidget> {
   Size? _oldSize;
 
   @override
-  Widget build(BuildContext context) {
-    WidgetsBinding.instance!.addPostFrameCallback((_) => _notifySize());
+  Widget build(final BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((final _) => _notifySize());
     return NotificationListener<SizeChangedLayoutNotification>(
-      onNotification: (_) {
-        WidgetsBinding.instance!.addPostFrameCallback((_) => _notifySize());
+      onNotification: (final _) {
+        WidgetsBinding.instance.addPostFrameCallback((final _) => _notifySize());
         return true;
       },
       child: SizeChangedLayoutNotifier(
@@ -68,7 +68,7 @@ class ImmediateSizeReportingOverflowPage extends StatelessWidget {
   final Widget child;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return OverflowBox(
       minHeight: 0,
       maxHeight: double.infinity,
@@ -83,21 +83,21 @@ class ImmediateSizeReportingOverflowPage extends StatelessWidget {
 
 class ImmediateSizeReportingWidget extends SingleChildRenderObjectWidget {
   const ImmediateSizeReportingWidget({
-    Key? key,
+    final Key? key,
     required this.onSizeChanged,
-    required Widget child,
+    required final Widget child,
   }) : super(key: key, child: child);
 
   /// Called during layout!
   final ValueChanged<Size> onSizeChanged;
 
   @override
-  RenderObject createRenderObject(BuildContext context) =>
+  RenderObject createRenderObject(final BuildContext context) =>
       _ImmediateSizeReportingRenderObject(onSizeChanged);
   @override
   void updateRenderObject(
-    BuildContext context,
-    _ImmediateSizeReportingRenderObject renderObject,
+    final BuildContext context,
+    final _ImmediateSizeReportingRenderObject renderObject,
   ) {
     renderObject.onSizeChanged = onSizeChanged;
   }
@@ -108,7 +108,7 @@ class _ImmediateSizeReportingRenderObject extends RenderProxyBox {
 
   ValueChanged<Size> get onSizeChanged => _onSizeChanged;
   ValueChanged<Size> _onSizeChanged;
-  set onSizeChanged(ValueChanged<Size> value) {
+  set onSizeChanged(final ValueChanged<Size> value) {
     if (_onSizeChanged == value) return;
     _onSizeChanged = value;
     markNeedsLayout();
@@ -125,20 +125,20 @@ class _ImmediateSizeReportingRenderObject extends RenderProxyBox {
 /// A widget that requests its height during layout via [heightGetter].
 class ImmediateSizedBox extends SingleChildRenderObjectWidget {
   const ImmediateSizedBox({
-    Key? key,
+    final Key? key,
     required this.heightGetter,
-    required Widget child,
+    required final Widget child,
   }) : super(key: key, child: child);
 
   final ValueGetter<double> heightGetter;
 
   @override
-  RenderObject createRenderObject(BuildContext context) =>
+  RenderObject createRenderObject(final BuildContext context) =>
       _ImmediateSizedBoxRenderObject(heightGetter);
   @override
   void updateRenderObject(
-    BuildContext context,
-    _ImmediateSizedBoxRenderObject renderObject,
+    final BuildContext context,
+    final _ImmediateSizedBoxRenderObject renderObject,
   ) {
     renderObject.heightGetter = heightGetter;
   }
@@ -149,7 +149,7 @@ class _ImmediateSizedBoxRenderObject extends RenderProxyBox {
 
   ValueGetter<double> get heightGetter => _heightGetter;
   ValueGetter<double> _heightGetter;
-  set heightGetter(ValueGetter<double> value) {
+  set heightGetter(final ValueGetter<double> value) {
     if (_heightGetter == value) return;
     _heightGetter = value;
     markNeedsLayout();

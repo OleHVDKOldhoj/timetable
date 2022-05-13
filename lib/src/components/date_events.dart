@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:collection/collection.dart';
 import 'package:flutter/widgets.dart';
@@ -21,14 +20,14 @@ import '../utils.dart';
 ///   descendant Timetable widgets.
 class DateEvents<E extends Event> extends StatelessWidget {
   DateEvents({
-    Key? key,
+    final Key? key,
     required this.date,
-    required List<E> events,
+    required final List<E> events,
     this.eventBuilder,
     this.style,
   })  : assert(date.isValidTimetableDate),
         assert(
-          events.every((e) => e.interval.intersects(date.fullDayInterval)),
+          events.every((final e) => e.interval.intersects(date.fullDayInterval)),
           'All events must intersect the given date',
         ),
         assert(
@@ -44,7 +43,7 @@ class DateEvents<E extends Event> extends StatelessWidget {
   final DateEventsStyle? style;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     final eventBuilder =
         this.eventBuilder ?? DefaultEventBuilder.of<E>(context)!;
     final style = this.style ??
@@ -76,15 +75,15 @@ class DateEventsStyle {
     // To allow future updates to use the context and align the parameters to
     // other style constructors.
     // ignore: avoid_unused_constructor_parameters
-    BuildContext context,
+    final BuildContext context,
     // ignore: avoid_unused_constructor_parameters, See above.
-    DateTime date, {
-    Duration? minEventDuration,
-    double? minEventHeight,
-    EdgeInsetsGeometry? padding,
-    bool? enableStacking,
-    Duration? minEventDeltaForStacking,
-    double? stackedEventSpacing,
+    final DateTime date, {
+    final Duration? minEventDuration,
+    final double? minEventHeight,
+    final EdgeInsetsGeometry? padding,
+    final bool? enableStacking,
+    final Duration? minEventDeltaForStacking,
+    final double? stackedEventSpacing,
   }) {
     return DateEventsStyle.raw(
       minEventDuration: minEventDuration ?? Duration(minutes: 30),
@@ -140,12 +139,12 @@ class DateEventsStyle {
   final double stackedEventSpacing;
 
   DateEventsStyle copyWith({
-    Duration? minEventDuration,
-    double? minEventHeight,
-    EdgeInsetsGeometry? padding,
-    bool? enableStacking,
-    Duration? minEventDeltaForStacking,
-    double? stackedEventSpacing,
+    final Duration? minEventDuration,
+    final double? minEventHeight,
+    final EdgeInsetsGeometry? padding,
+    final bool? enableStacking,
+    final Duration? minEventDeltaForStacking,
+    final double? stackedEventSpacing,
   }) {
     return DateEventsStyle.raw(
       minEventDuration: minEventDuration ?? this.minEventDuration,
@@ -168,7 +167,7 @@ class DateEventsStyle {
         stackedEventSpacing,
       );
   @override
-  bool operator ==(Object other) {
+  bool operator ==(final Object other) {
     return other is DateEventsStyle &&
         other.minEventDuration == minEventDuration &&
         other.minEventHeight == minEventHeight &&
@@ -192,15 +191,15 @@ class _DayEventsLayoutDelegate<E extends Event>
   final DateEventsStyle style;
 
   @override
-  void performLayout(Size size) {
+  void performLayout(final Size size) {
     final positions = _calculatePositions(size.height);
 
-    double durationToY(Duration duration) {
+    double durationToY(final Duration duration) {
       assert(duration.isValidTimetableTimeOfDay);
       return size.height * (duration / 1.days);
     }
 
-    double timeToY(DateTime dateTime) {
+    double timeToY(final DateTime dateTime) {
       assert(dateTime.isValidTimetableDateTime);
 
       if (dateTime < date) return 0;
@@ -230,7 +229,7 @@ class _DayEventsLayoutDelegate<E extends Event>
     }
   }
 
-  _EventPositions _calculatePositions(double height) {
+  _EventPositions _calculatePositions(final double height) {
     // How this layout algorithm works:
     // We first divide all events into groups, whereas a group contains all
     // events that intersect one another.
@@ -259,9 +258,9 @@ class _DayEventsLayoutDelegate<E extends Event>
   }
 
   void _endGroup(
-    _EventPositions positions,
-    List<E> currentGroup,
-    double height,
+    final _EventPositions positions,
+    final List<E> currentGroup,
+    final double height,
   ) {
     if (currentGroup.isEmpty) return;
     if (currentGroup.length == 1) {
@@ -288,15 +287,15 @@ class _DayEventsLayoutDelegate<E extends Event>
           continue;
         }
 
-        final index = column
-                .where((e) => _actualEnd(e, height) >= event.start)
-                .map((e) => positions.eventPositions[e]!.index)
-                .max() ??
+        final index = IterableIntegerExtension(column
+                .where((final e) => _actualEnd(e, height) >= event.start)
+                .map((final e) => positions.eventPositions[e]!.index))
+                .max as int? ??
             -1;
 
         final previousEnd = column
-            .map((it) => it.end)
-            .reduce((value, element) => value.coerceAtLeast(element));
+            .map((final it) => it.end)
+            .reduce((final value, final element) => value.coerceAtLeast(element));
 
         // Further at the top and hence wider
         if (index < minIndex ||
@@ -329,8 +328,8 @@ class _DayEventsLayoutDelegate<E extends Event>
       var columnSpan = 1;
       for (var i = position.column + 1; i < columns.length; i++) {
         final hasOverlapInColumn = currentGroup
-            .where((e) => positions.eventPositions[e]!.column == i)
-            .where((e) =>
+            .where((final e) => positions.eventPositions[e]!.column == i)
+            .where((final e) =>
                 event.start < _actualEnd(e, height) &&
                 e.start < _actualEnd(event, height))
             .isNotEmpty;
@@ -345,21 +344,21 @@ class _DayEventsLayoutDelegate<E extends Event>
     positions.groupColumnCounts.add(columns.length);
   }
 
-  DateTime _actualEnd(E event, double height) {
+  DateTime _actualEnd(final E event, final double height) {
     final minDurationForHeight = (style.minEventHeight / height).days;
     return event.end
         .coerceAtLeast(event.start + style.minEventDuration)
         .coerceAtLeast(event.start + minDurationForHeight);
   }
 
-  Duration _durationOn(E event, double height) {
+  Duration _durationOn(final E event, final double height) {
     final start = event.start.coerceAtLeast(date);
     final end = _actualEnd(event, height).coerceAtMost(date + 1.days);
     return end.difference(start);
   }
 
   @override
-  bool shouldRelayout(_DayEventsLayoutDelegate<E> oldDelegate) {
+  bool shouldRelayout(final _DayEventsLayoutDelegate<E> oldDelegate) {
     return date != oldDelegate.date ||
         style != oldDelegate.style ||
         !DeepCollectionEquality().equals(events, oldDelegate.events);
@@ -384,7 +383,7 @@ class _SingleEventPosition {
   final int columnSpan;
   final int index;
 
-  _SingleEventPosition copyWith({int? columnSpan}) {
+  _SingleEventPosition copyWith({final int? columnSpan}) {
     return _SingleEventPosition(
       group,
       column,

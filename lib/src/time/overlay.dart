@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 import '../event/event.dart';
@@ -41,33 +40,33 @@ typedef TimeOverlayProvider = List<TimeOverlay> Function(
 );
 
 List<TimeOverlay> emptyTimeOverlayProvider(
-  BuildContext context,
-  DateTime date,
+  final BuildContext context,
+  final DateTime date,
 ) {
   assert(date.isValidTimetableDate);
   return [];
 }
 
 TimeOverlayProvider mergeTimeOverlayProviders(
-  List<TimeOverlayProvider> overlayProviders,
+  final List<TimeOverlayProvider> overlayProviders,
 ) {
-  return (context, date) =>
-      overlayProviders.expand((it) => it(context, date)).toList();
+  return (final context, final date) =>
+      overlayProviders.expand((final it) => it(context, date)).toList();
 }
 
 class DefaultTimeOverlayProvider extends InheritedWidget {
   const DefaultTimeOverlayProvider({
     required this.overlayProvider,
-    required Widget child,
+    required final Widget child,
   }) : super(child: child);
 
   final TimeOverlayProvider overlayProvider;
 
   @override
-  bool updateShouldNotify(DefaultTimeOverlayProvider oldWidget) =>
+  bool updateShouldNotify(final DefaultTimeOverlayProvider oldWidget) =>
       overlayProvider != oldWidget.overlayProvider;
 
-  static TimeOverlayProvider? of(BuildContext context) {
+  static TimeOverlayProvider? of(final BuildContext context) {
     return context
         .dependOnInheritedWidgetOfExactType<DefaultTimeOverlayProvider>()
         ?.overlayProvider;
@@ -76,9 +75,9 @@ class DefaultTimeOverlayProvider extends InheritedWidget {
 
 extension EventToTimeOverlay on Event {
   TimeOverlay? toTimeOverlay({
-    required DateTime date,
-    required Widget widget,
-    TimeOverlayPosition position = TimeOverlayPosition.inFrontOfEvents,
+    required final DateTime date,
+    required final Widget widget,
+    final TimeOverlayPosition position = TimeOverlayPosition.inFrontOfEvents,
   }) {
     assert(date.isValidTimetableDate);
 

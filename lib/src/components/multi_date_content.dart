@@ -31,16 +31,16 @@ import 'now_indicator.dart';
 ///   [DatePageView], and [DateContent], which are used internally by this
 ///   widget and can be styled.
 class MultiDateContent<E extends Event> extends StatelessWidget {
-  const MultiDateContent({Key? key}) : super(key: key);
+  const MultiDateContent({final Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return DateDividers(
       child: TimeZoom(
         child: HourDividers(
           child: NowIndicator(
             child: LayoutBuilder(
-              builder: (context, constraints) =>
+              builder: (final context, final constraints) =>
                   _buildEvents(context, constraints.biggest),
             ),
           ),
@@ -49,7 +49,7 @@ class MultiDateContent<E extends Event> extends StatelessWidget {
     );
   }
 
-  Widget _buildEvents(BuildContext context, Size size) {
+  Widget _buildEvents(final BuildContext context, final Size size) {
     final dateController = DefaultDateController.of(context)!;
 
     return _DragInfos(
@@ -58,7 +58,7 @@ class MultiDateContent<E extends Event> extends StatelessWidget {
       size: size,
       child: DatePageView(
         controller: dateController,
-        builder: (context, date) => DateContent<E>(
+        builder: (final context, final date) => DateContent<E>(
           date: date,
           events:
               DefaultEventProvider.of<E>(context)?.call(date.fullDayInterval) ??
@@ -76,7 +76,7 @@ class _DragInfos extends InheritedWidget {
     required this.context,
     required this.dateController,
     required this.size,
-    required Widget child,
+    required final Widget child,
   }) : super(child: child);
 
   // Storing the context feels wrong but I haven't found a different way to
@@ -85,7 +85,7 @@ class _DragInfos extends InheritedWidget {
   final DateController dateController;
   final Size size;
 
-  static DateTime resolveOffset(BuildContext context, Offset globalOffset) {
+  static DateTime resolveOffset(final BuildContext context, final Offset globalOffset) {
     final dragInfos = context.dependOnInheritedWidgetOfExactType<_DragInfos>()!;
 
     final localOffset = (dragInfos.context.findRenderObject()! as RenderBox)
@@ -99,7 +99,7 @@ class _DragInfos extends InheritedWidget {
   }
 
   @override
-  bool updateShouldNotify(_DragInfos oldWidget) {
+  bool updateShouldNotify(final _DragInfos oldWidget) {
     return context != oldWidget.context ||
         dateController != oldWidget.dateController ||
         size != oldWidget.size;
@@ -116,7 +116,7 @@ class PartDayDraggableEvent extends StatefulWidget {
     this.onDragEnd,
     this.onDragCanceled,
     required this.child,
-    Widget? childWhileDragging,
+    final Widget? childWhileDragging,
   }) : childWhileDragging =
             childWhileDragging ?? Opacity(opacity: 0.6, child: child);
 
@@ -146,12 +146,12 @@ class _PartDayDraggableEventState extends State<PartDayDraggableEvent> {
   var _isMoved = false;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return LongPressDraggable<_DragData>(
       data: _DragData(),
       maxSimultaneousDrags: 1,
       onDragStarted: widget.onDragStart,
-      onDragUpdate: (details) {
+      onDragUpdate: (final details) {
         if (widget.onDragUpdate != null) {
           _lastDragDateTime =
               _DragInfos.resolveOffset(context, details.globalPosition);
@@ -159,7 +159,7 @@ class _PartDayDraggableEventState extends State<PartDayDraggableEvent> {
         }
         _isMoved = true;
       },
-      onDragEnd: (details) {
+      onDragEnd: (final details) {
         if (widget.onDragEnd != null) {
           widget.onDragEnd!(_lastDragDateTime);
           _lastDragDateTime = null;
@@ -167,7 +167,7 @@ class _PartDayDraggableEventState extends State<PartDayDraggableEvent> {
         _isMoved = false;
       },
       onDraggableCanceled: widget.onDragCanceled != null
-          ? (_, __) => widget.onDragCanceled!(_isMoved)
+          ? (final _, final __) => widget.onDragCanceled!(_isMoved)
           : null,
       child: widget.child,
       childWhenDragging: widget.childWhileDragging,

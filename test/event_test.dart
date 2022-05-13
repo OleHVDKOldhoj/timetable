@@ -75,6 +75,6 @@ void main() {
 }
 
 class _TestEvent extends Event {
-  const _TestEvent(DateTime start, DateTime end)
+  const _TestEvent(final DateTime start, final DateTime end)
       : super(start: start, end: end);
 }

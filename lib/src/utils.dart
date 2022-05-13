@@ -11,21 +11,21 @@ export 'utils/listenable.dart';
 export 'utils/size_reporting_widget.dart';
 
 extension DoubleTimetable on double {
-  double coerceAtLeast(double min) => this < min ? min : this;
-  double coerceAtMost(double max) => this > max ? max : this;
-  double coerceIn(double min, double max) =>
+  double coerceAtLeast(final double min) => this < min ? min : this;
+  double coerceAtMost(final double max) => this > max ? max : this;
+  double coerceIn(final double min, final double max) =>
       coerceAtLeast(min).coerceAtMost(max);
 }
 
 extension ComparableTimetable<T extends Comparable<T>> on T {
-  bool operator <(T other) => compareTo(other) < 0;
-  bool operator <=(T other) => compareTo(other) <= 0;
-  bool operator >(T other) => compareTo(other) > 0;
-  bool operator >=(T other) => compareTo(other) >= 0;
+  bool operator <(final T other) => compareTo(other) < 0;
+  bool operator <=(final T other) => compareTo(other) <= 0;
+  bool operator >(final T other) => compareTo(other) > 0;
+  bool operator >=(final T other) => compareTo(other) >= 0;
 
-  T coerceAtLeast(T min) => (this < min) ? min : this;
-  T coerceAtMost(T max) => this > max ? max : this;
-  T coerceIn(T min, T max) => coerceAtLeast(min).coerceAtMost(max);
+  T coerceAtLeast(final T min) => (this < min) ? min : this;
+  T coerceAtMost(final T max) => this > max ? max : this;
+  T coerceIn(final T min, final T max) => coerceAtLeast(min).coerceAtMost(max);
 }
 
 typedef MonthWidgetBuilder = Widget Function(
@@ -39,27 +39,27 @@ typedef DateWidgetBuilder = Widget Function(
 );
 
 extension DateTimeTimetable on DateTime {
-  static DateTime date(int year, [int month = 1, int day = 1]) {
+  static DateTime date(final int year, [final int month = 1, final int day = 1]) {
     final date = DateTime.utc(year, month, day);
     assert(date.isValidTimetableDate);
     return date;
   }
 
-  static DateTime month(int year, int month) {
+  static DateTime month(final int year, final int month) {
     final date = DateTime.utc(year, month, 1);
     assert(date.isValidTimetableMonth);
     return date;
   }
 
   DateTime copyWith({
-    int? year,
-    int? month,
-    int? day,
-    int? hour,
-    int? minute,
-    int? second,
-    int? millisecond,
-    bool? isUtc,
+    final int? year,
+    final int? month,
+    final int? day,
+    final int? hour,
+    final int? minute,
+    final int? second,
+    final int? millisecond,
+    final bool? isUtc,
   }) {
     return InternalDateTimeTimetable.create(
       year: year ?? this.year,
@@ -108,14 +108,14 @@ extension DateTimeTimetable on DateTime {
     return Interval(this, atEndOfDay);
   }
 
-  DateTime nextOrSame(int dayOfWeek) {
+  DateTime nextOrSame(final int dayOfWeek) {
     assert(isValidTimetableDate);
     assert(weekday.isValidTimetableDayOfWeek);
 
     return this + ((dayOfWeek - weekday) % DateTime.daysPerWeek).days;
   }
 
-  DateTime previousOrSame(int weekday) {
+  DateTime previousOrSame(final int weekday) {
     assert(isValidTimetableDate);
     assert(weekday.isValidTimetableDayOfWeek);
 
@@ -131,7 +131,7 @@ extension DateTimeTimetable on DateTime {
   DateTime get firstDayOfMonth => atStartOfDay.copyWith(day: 1);
   DateTime get lastDayOfMonth => copyWith(day: daysInMonth);
 
-  DateTime roundTimeToMultipleOf(Duration duration) {
+  DateTime roundTimeToMultipleOf(final Duration duration) {
     assert(duration.isValidTimetableTimeOfDay);
     return atStartOfDay + duration * (timeOfDay / duration).floor();
   }
@@ -146,7 +146,7 @@ extension DateTimeTimetable on DateTime {
     return page.floor();
   }
 
-  static DateTime dateFromPage(int page) {
+  static DateTime dateFromPage(final int page) {
     final date = DateTime.fromMillisecondsSinceEpoch(
       (page * Duration.millisecondsPerDay).toInt(),
       isUtc: true,
@@ -155,7 +155,7 @@ extension DateTimeTimetable on DateTime {
     return date;
   }
 
-  static DateTime dateTimeFromPage(double page) {
+  static DateTime dateTimeFromPage(final double page) {
     return DateTime.fromMillisecondsSinceEpoch(
       (page * Duration.millisecondsPerDay).toInt(),
       isUtc: true,
@@ -165,14 +165,14 @@ extension DateTimeTimetable on DateTime {
 
 extension InternalDateTimeTimetable on DateTime {
   static DateTime create({
-    required int year,
-    int month = 1,
-    int day = 1,
-    int hour = 0,
-    int minute = 0,
-    int second = 0,
-    int millisecond = 0,
-    bool isUtc = true,
+    required final int year,
+    final int month = 1,
+    final int day = 1,
+    final int hour = 0,
+    final int minute = 0,
+    final int second = 0,
+    final int millisecond = 0,
+    final bool isUtc = true,
   }) {
     if (isUtc) {
       return DateTime.utc(year, month, day, hour, minute, second, millisecond);
@@ -180,14 +180,14 @@ extension InternalDateTimeTimetable on DateTime {
     return DateTime(year, month, day, hour, minute, second, millisecond);
   }
 
-  bool operator <(DateTime other) => isBefore(other);
-  bool operator <=(DateTime other) =>
+  bool operator <(final DateTime other) => isBefore(other);
+  bool operator <=(final DateTime other) =>
       isBefore(other) || isAtSameMomentAs(other);
-  bool operator >(DateTime other) => isAfter(other);
-  bool operator >=(DateTime other) => isAfter(other) || isAtSameMomentAs(other);
+  bool operator >(final DateTime other) => isAfter(other);
+  bool operator >=(final DateTime other) => isAfter(other) || isAtSameMomentAs(other);
 
   static final List<int> innerDateHours =
-      List.generate(Duration.hoursPerDay - 1, (i) => i + 1);
+      List.generate(Duration.hoursPerDay - 1, (final i) => i + 1);
 }
 
 extension NullableDateTimeTimetable on DateTime? {
@@ -211,7 +211,7 @@ extension NullableIntTimetable on int? {
 }
 
 extension IntervalTimetable on Interval {
-  bool intersects(Interval other) => start <= other.end && end >= other.start;
+  bool intersects(final Interval other) => start <= other.end && end >= other.start;
 
   Interval get dateInterval {
     final interval = Interval(

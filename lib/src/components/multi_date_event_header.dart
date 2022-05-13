@@ -36,7 +36,7 @@ import '../utils.dart';
 ///   Timetable widgets.
 class MultiDateEventHeader<E extends Event> extends StatelessWidget {
   const MultiDateEventHeader({
-    Key? key,
+    final Key? key,
     this.onBackgroundTap,
     this.style,
   }) : super(key: key);
@@ -45,22 +45,22 @@ class MultiDateEventHeader<E extends Event> extends StatelessWidget {
   final MultiDateEventHeaderStyle? style;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     final style = this.style ??
         TimetableTheme.orDefaultOf(context).multiDateEventHeaderStyle;
 
     return Stack(children: [
       Positioned.fill(
-        child: DatePageView(builder: (context, date) => SizedBox()),
+        child: DatePageView(builder: (final context, final date) => SizedBox()),
       ),
       ClipRect(
         child: Padding(
           padding: style.padding,
           child: LayoutBuilder(
-            builder: (context, constraints) =>
+            builder: (final context, final constraints) =>
                 ValueListenableBuilder<DatePageValue>(
               valueListenable: DefaultDateController.of(context)!,
-              builder: (context, pageValue, __) => _buildContent(
+              builder: (final context, final pageValue, final __) => _buildContent(
                 context,
                 style,
                 pageValue,
@@ -74,10 +74,10 @@ class MultiDateEventHeader<E extends Event> extends StatelessWidget {
   }
 
   Widget _buildContent(
-    BuildContext context,
-    MultiDateEventHeaderStyle style,
-    DatePageValue pageValue,
-    double width,
+    final BuildContext context,
+    final MultiDateEventHeaderStyle style,
+    final DatePageValue pageValue,
+    final double width,
   ) {
     final visibleDates = Interval(
       DateTimeTimetable.dateFromPage(pageValue.page.floor()),
@@ -94,7 +94,7 @@ class MultiDateEventHeader<E extends Event> extends StatelessWidget {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTapUp: onBackgroundTap != null
-          ? (details) {
+          ? (final details) {
               final tappedCell =
                   details.localPosition.dx / width * pageValue.visibleDayCount;
               final page = (pageValue.page + tappedCell).floor();
@@ -106,10 +106,10 @@ class MultiDateEventHeader<E extends Event> extends StatelessWidget {
   }
 
   Widget _buildEventLayout(
-    BuildContext context,
-    MultiDateEventHeaderStyle style,
-    Interval visibleDates,
-    DatePageValue pageValue,
+    final BuildContext context,
+    final MultiDateEventHeaderStyle style,
+    final Interval visibleDates,
+    final DatePageValue pageValue,
   ) {
     assert(visibleDates.isValidTimetableDateInterval);
 
@@ -132,7 +132,7 @@ class MultiDateEventHeader<E extends Event> extends StatelessWidget {
     );
   }
 
-  Widget _buildEvent(BuildContext context, E event, DatePageValue pageValue) {
+  Widget _buildEvent(final BuildContext context, final E event, final DatePageValue pageValue) {
     return DefaultEventBuilder.allDayOf<E>(context)!(
       context,
       event,
@@ -152,9 +152,9 @@ class MultiDateEventHeaderStyle {
     // To allow future updates to use the context and align the parameters to
     // other style constructors.
     // ignore: avoid_unused_constructor_parameters
-    BuildContext context, {
-    double? eventHeight,
-    EdgeInsetsGeometry? padding,
+    final BuildContext context, {
+    final double? eventHeight,
+    final EdgeInsetsGeometry? padding,
   }) {
     return MultiDateEventHeaderStyle.raw(
       eventHeight: eventHeight ?? 24,
@@ -173,8 +173,8 @@ class MultiDateEventHeaderStyle {
   final EdgeInsetsGeometry padding;
 
   MultiDateEventHeaderStyle copyWith({
-    double? eventHeight,
-    EdgeInsetsGeometry? padding,
+    final double? eventHeight,
+    final EdgeInsetsGeometry? padding,
   }) {
     return MultiDateEventHeaderStyle.raw(
       eventHeight: eventHeight ?? this.eventHeight,
@@ -185,7 +185,7 @@ class MultiDateEventHeaderStyle {
   @override
   int get hashCode => hashValues(eventHeight, padding);
   @override
-  bool operator ==(Object other) {
+  bool operator ==(final Object other) {
     return other is MultiDateEventHeaderStyle &&
         eventHeight == other.eventHeight &&
         padding == other.padding;
@@ -195,9 +195,9 @@ class MultiDateEventHeaderStyle {
 class _EventParentDataWidget<E extends Event>
     extends ParentDataWidget<_EventParentData<E>> {
   const _EventParentDataWidget({
-    Key? key,
+    final Key? key,
     required this.event,
-    required Widget child,
+    required final Widget child,
   }) : super(key: key, child: child);
 
   final E event;
@@ -206,7 +206,7 @@ class _EventParentDataWidget<E extends Event>
   Type get debugTypicalAncestorWidgetClass => _EventsWidget;
 
   @override
-  void applyParentData(RenderObject renderObject) {
+  void applyParentData(final RenderObject renderObject) {
     assert(renderObject.parentData is _EventParentData<E>);
     final parentData = renderObject.parentData! as _EventParentData<E>;
 
@@ -224,7 +224,7 @@ class _EventsWidget<E extends Event> extends MultiChildRenderObjectWidget {
     required this.currentlyVisibleDates,
     required this.page,
     required this.eventHeight,
-    required List<_EventParentDataWidget<E>> children,
+    required final List<_EventParentDataWidget<E>> children,
   }) : super(children: children);
 
   final VisibleDateRange visibleRange;
@@ -233,7 +233,7 @@ class _EventsWidget<E extends Event> extends MultiChildRenderObjectWidget {
   final double eventHeight;
 
   @override
-  RenderObject createRenderObject(BuildContext context) {
+  RenderObject createRenderObject(final BuildContext context) {
     return _EventsLayout<E>(
       visibleRange: visibleRange,
       currentlyVisibleDates: currentlyVisibleDates,
@@ -243,7 +243,7 @@ class _EventsWidget<E extends Event> extends MultiChildRenderObjectWidget {
   }
 
   @override
-  void updateRenderObject(BuildContext context, _EventsLayout<E> renderObject) {
+  void updateRenderObject(final BuildContext context, final _EventsLayout<E> renderObject) {
     renderObject
       ..visibleRange = visibleRange
       ..currentlyVisibleDates = currentlyVisibleDates
@@ -262,10 +262,10 @@ class _EventsLayout<E extends Event> extends RenderBox
         ContainerRenderObjectMixin<RenderBox, _EventParentData<E>>,
         RenderBoxContainerDefaultsMixin<RenderBox, _EventParentData<E>> {
   _EventsLayout({
-    required VisibleDateRange visibleRange,
-    required Interval currentlyVisibleDates,
-    required double page,
-    required double eventHeight,
+    required final VisibleDateRange visibleRange,
+    required final Interval currentlyVisibleDates,
+    required final double page,
+    required final double eventHeight,
   })  : _visibleRange = visibleRange,
         assert(currentlyVisibleDates.isValidTimetableDateInterval),
         _currentlyVisibleDates = currentlyVisibleDates,
@@ -274,7 +274,7 @@ class _EventsLayout<E extends Event> extends RenderBox
 
   VisibleDateRange _visibleRange;
   VisibleDateRange get visibleRange => _visibleRange;
-  set visibleRange(VisibleDateRange value) {
+  set visibleRange(final VisibleDateRange value) {
     if (_visibleRange == value) return;
 
     _visibleRange = value;
@@ -283,7 +283,7 @@ class _EventsLayout<E extends Event> extends RenderBox
 
   Interval _currentlyVisibleDates;
   Interval get currentlyVisibleDates => _currentlyVisibleDates;
-  set currentlyVisibleDates(Interval value) {
+  set currentlyVisibleDates(final Interval value) {
     assert(value.isValidTimetableDateInterval);
     if (_currentlyVisibleDates == value) return;
 
@@ -293,7 +293,7 @@ class _EventsLayout<E extends Event> extends RenderBox
 
   double _page;
   double get page => _page;
-  set page(double value) {
+  set page(final double value) {
     if (_page == value) return;
 
     _page = value;
@@ -302,30 +302,30 @@ class _EventsLayout<E extends Event> extends RenderBox
 
   double _eventHeight;
   double get eventHeight => _eventHeight;
-  set eventHeight(double value) {
+  set eventHeight(final double value) {
     if (_eventHeight == value) return;
 
     _eventHeight = value;
     markNeedsLayout();
   }
 
-  Iterable<E> get _events => children.map((child) => child.data<E>().event!);
+  Iterable<E> get _events => children.map((final child) => child.data<E>().event!);
 
   @override
-  void setupParentData(RenderObject child) {
+  void setupParentData(final RenderObject child) {
     if (child.parentData is! _EventParentData<E>) {
       child.parentData = _EventParentData<E>();
     }
   }
 
   @override
-  double computeMinIntrinsicWidth(double height) {
+  double computeMinIntrinsicWidth(final double height) {
     assert(_debugThrowIfNotCheckingIntrinsics());
     return 0;
   }
 
   @override
-  double computeMaxIntrinsicWidth(double height) {
+  double computeMaxIntrinsicWidth(final double height) {
     assert(_debugThrowIfNotCheckingIntrinsics());
     return 0;
   }
@@ -341,10 +341,10 @@ class _EventsLayout<E extends Event> extends RenderBox
   }
 
   @override
-  double computeMinIntrinsicHeight(double width) =>
+  double computeMinIntrinsicHeight(final double width) =>
       _parallelEventCount() * eventHeight;
   @override
-  double computeMaxIntrinsicHeight(double width) =>
+  double computeMaxIntrinsicHeight(final double width) =>
       _parallelEventCount() * eventHeight;
 
   final _yPositions = <E, int>{};
@@ -365,21 +365,21 @@ class _EventsLayout<E extends Event> extends RenderBox
 
   void _updateEventPositions() {
     // Remove events outside the current viewport (with some buffer).
-    _yPositions.removeWhere((e, _) {
+    _yPositions.removeWhere((final e, final _) {
       return e.start.page.floor() >= currentlyVisibleDates.end.page.ceil() ||
           e.end.page.ceil() <= currentlyVisibleDates.start.page;
     });
 
     // Remove old events.
-    _yPositions.removeWhere((e, _) => !_events.contains(e));
+    _yPositions.removeWhere((final e, final _) => !_events.contains(e));
 
     // Insert new events.
     final sortedEvents = _events
-        .where((it) => !_yPositions.containsKey(it))
+        .where((final it) => !_yPositions.containsKey(it))
         .sortedByStartLength();
 
-    Iterable<E> eventsWithPosition(int y) {
-      return _yPositions.entries.where((e) => e.value == y).map((e) => e.key);
+    Iterable<E> eventsWithPosition(final int y) {
+      return _yPositions.entries.where((final e) => e.value == y).map((final e) => e.key);
     }
 
     outer:
@@ -389,7 +389,7 @@ class _EventsLayout<E extends Event> extends RenderBox
       while (true) {
         final intersectingEvents = eventsWithPosition(y);
         if (intersectingEvents
-            .every((e) => !e.interval.dateInterval.intersects(interval))) {
+            .every((final e) => !e.interval.dateInterval.intersects(interval))) {
           _yPositions[event] = y;
           continue outer;
         }
@@ -428,7 +428,7 @@ class _EventsLayout<E extends Event> extends RenderBox
   }
 
   double _parallelEventCount() {
-    int parallelEventsFrom(int page) {
+    int parallelEventsFrom(final int page) {
       final startDate = DateTimeTimetable.dateFromPage(page);
       final interval = Interval(
         startDate,
@@ -437,8 +437,8 @@ class _EventsLayout<E extends Event> extends RenderBox
       assert(interval.isValidTimetableDateInterval);
 
       final maxEventPosition = _yPositions.entries
-          .where((e) => e.key.interval.intersects(interval))
-          .map((e) => e.value)
+          .where((final e) => e.key.interval.intersects(interval))
+          .map((final e) => e.value)
           .max();
       return maxEventPosition != null ? maxEventPosition + 1 : 0;
     }
@@ -451,11 +451,11 @@ class _EventsLayout<E extends Event> extends RenderBox
   }
 
   @override
-  bool hitTestChildren(BoxHitTestResult result, {required Offset position}) =>
+  bool hitTestChildren(final BoxHitTestResult result, {required final Offset position}) =>
       defaultHitTestChildren(result, position: position);
 
   @override
-  void paint(PaintingContext context, Offset offset) =>
+  void paint(final PaintingContext context, final Offset offset) =>
       defaultPaint(context, offset);
 }
 

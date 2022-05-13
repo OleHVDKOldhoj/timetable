@@ -1,8 +1,6 @@
 import 'dart:ui';
 
-import 'package:flutter/animation.dart' hide Interval;
 import 'package:flutter/foundation.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 
 import '../config.dart';
@@ -21,8 +19,8 @@ import 'visible_date_range.dart';
 /// You can also get and update the [VisibleDateRange] via [visibleRange].
 class DateController extends ValueNotifier<DatePageValue> {
   DateController({
-    DateTime? initialDate,
-    VisibleDateRange? visibleRange,
+    final DateTime? initialDate,
+    final VisibleDateRange? visibleRange,
   })  : assert(initialDate.isValidTimetableDate),
         // We set the correct value in the body below.
         super(DatePageValue(
@@ -43,7 +41,7 @@ class DateController extends ValueNotifier<DatePageValue> {
   ValueListenable<DateTime> get date => _date;
 
   VisibleDateRange get visibleRange => value.visibleRange;
-  set visibleRange(VisibleDateRange visibleRange) {
+  set visibleRange(final VisibleDateRange visibleRange) {
     value = value.copyWith(
       page: visibleRange.getTargetPageForFocus(value.page),
       visibleRange: visibleRange,
@@ -54,9 +52,9 @@ class DateController extends ValueNotifier<DatePageValue> {
   AnimationController? _animationController;
 
   Future<void> animateToToday({
-    Curve curve = Curves.easeInOut,
-    Duration duration = const Duration(milliseconds: 200),
-    required TickerProvider vsync,
+    final Curve curve = Curves.easeInOut,
+    final Duration duration = const Duration(milliseconds: 200),
+    required final TickerProvider vsync,
   }) {
     return animateTo(
       DateTimeTimetable.today(),
@@ -67,10 +65,10 @@ class DateController extends ValueNotifier<DatePageValue> {
   }
 
   Future<void> animateTo(
-    DateTime date, {
-    Curve curve = Curves.easeInOut,
-    Duration duration = const Duration(milliseconds: 200),
-    required TickerProvider vsync,
+    final DateTime date, {
+    final Curve curve = Curves.easeInOut,
+    final Duration duration = const Duration(milliseconds: 200),
+    required final TickerProvider vsync,
   }) {
     return animateToPage(
       date.page,
@@ -81,10 +79,10 @@ class DateController extends ValueNotifier<DatePageValue> {
   }
 
   Future<void> animateToPage(
-    double page, {
-    Curve curve = Curves.easeInOut,
-    Duration duration = const Duration(milliseconds: 200),
-    required TickerProvider vsync,
+    final double page, {
+    final Curve curve = Curves.easeInOut,
+    final Duration duration = const Duration(milliseconds: 200),
+    required final TickerProvider vsync,
   }) async {
     _animationController?.dispose();
     final controller =
@@ -99,7 +97,7 @@ class DateController extends ValueNotifier<DatePageValue> {
       );
     });
 
-    controller.addStatusListener((status) {
+    controller.addStatusListener((final status) {
       if (status != AnimationStatus.completed) return;
       controller.dispose();
       _animationController = null;
@@ -109,12 +107,12 @@ class DateController extends ValueNotifier<DatePageValue> {
   }
 
   void jumpToToday() => jumpTo(DateTimeTimetable.today());
-  void jumpTo(DateTime date) {
+  void jumpTo(final DateTime date) {
     assert(date.isValidTimetableDate);
     jumpToPage(date.page);
   }
 
-  void jumpToPage(double page) {
+  void jumpToPage(final double page) {
     value =
         value.copyWith(page: value.visibleRange.getTargetPageForFocus(page));
   }
@@ -130,7 +128,7 @@ class DateController extends ValueNotifier<DatePageValue> {
 }
 
 class _DateValueNotifier extends ValueNotifier<DateTime> {
-  _DateValueNotifier(DateTime date)
+  _DateValueNotifier(final DateTime date)
       : assert(date.isValidTimetableDate),
         super(date);
 }
@@ -146,14 +144,14 @@ class DatePageValue {
   final double page;
   DateTime get date => DateTimeTimetable.dateFromPage(page.floor());
 
-  DatePageValue copyWith({VisibleDateRange? visibleRange, double? page}) {
+  DatePageValue copyWith({final VisibleDateRange? visibleRange, final double? page}) {
     return DatePageValue(visibleRange ?? this.visibleRange, page ?? this.page);
   }
 
   @override
   int get hashCode => hashValues(visibleRange, page);
   @override
-  bool operator ==(Object other) {
+  bool operator ==(final Object other) {
     return other is DatePageValue &&
         visibleRange == other.visibleRange &&
         page == other.page;
@@ -173,16 +171,16 @@ class DatePageValue {
 class DefaultDateController extends InheritedWidget {
   const DefaultDateController({
     required this.controller,
-    required Widget child,
+    required final Widget child,
   }) : super(child: child);
 
   final DateController controller;
 
   @override
-  bool updateShouldNotify(DefaultDateController oldWidget) =>
+  bool updateShouldNotify(final DefaultDateController oldWidget) =>
       controller != oldWidget.controller;
 
-  static DateController? of(BuildContext context) {
+  static DateController? of(final BuildContext context) {
     return context
         .dependOnInheritedWidgetOfExactType<DefaultDateController>()
         ?.controller;

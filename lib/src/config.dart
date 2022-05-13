@@ -12,10 +12,10 @@ import 'time/overlay.dart';
 
 class TimetableConfig<E extends Event> extends StatefulWidget {
   TimetableConfig({
-    Key? key,
+    final Key? key,
     this.dateController,
     this.timeController,
-    EventProvider<E>? eventProvider,
+    final EventProvider<E>? eventProvider,
     this.eventBuilder,
     this.allDayEventBuilder,
     this.timeOverlayProvider,
@@ -51,7 +51,7 @@ class _TimetableConfigState<E extends Event> extends State<TimetableConfig<E>> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     Widget child = DefaultTimetableCallbacks(
       callbacks: widget.callbacks ??
           DefaultTimetableCallbacks.of(context) ??
@@ -74,7 +74,7 @@ class _TimetableConfigState<E extends Event> extends State<TimetableConfig<E>> {
     child = DefaultEventProvider<E>(
       eventProvider: widget.eventProvider ??
           DefaultEventProvider.of<E>(context) ??
-          (_) => [],
+          (final _) => [],
       child: DefaultEventBuilder(
         builder: widget.eventBuilder ?? DefaultEventBuilder.of<E>(context)!,
         allDayBuilder: widget.allDayEventBuilder,

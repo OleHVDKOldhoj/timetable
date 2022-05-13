@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -20,7 +19,7 @@ const _precisionErrorTolerance = 1e-5;
 /// a [DefaultDateController] above in the widget tree.
 class DatePageView extends StatefulWidget {
   const DatePageView({
-    Key? key,
+    final Key? key,
     this.controller,
     this.shrinkWrapInCrossAxis = false,
     required this.builder,
@@ -62,21 +61,21 @@ class _DatePageViewState extends State<DatePageView> {
     final datePageValue = _controller!.value;
     final firstPage = datePageValue.page.round();
     final lastPage = datePageValue.page.round() + datePageValue.visibleDayCount;
-    _heights.removeWhere((key, _) => key < firstPage - 5 || key > lastPage + 5);
+    _heights.removeWhere((final key, final _) => key < firstPage - 5 || key > lastPage + 5);
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     Widget child = ValueListenableBuilder<bool>(
-      valueListenable: _controller!.map((it) => it.visibleRange.canScroll),
-      builder: (context, canScroll, _) =>
+      valueListenable: _controller!.map((final it) => it.visibleRange.canScroll),
+      builder: (final context, final canScroll, final _) =>
           canScroll ? _buildScrollingChild() : _buildNonScrollingChild(),
     );
 
     if (widget.shrinkWrapInCrossAxis) {
       child = ValueListenableBuilder<DatePageValue>(
         valueListenable: _controller!,
-        builder: (context, pageValue, child) => ImmediateSizedBox(
+        builder: (final context, final pageValue, final child) => ImmediateSizedBox(
           heightGetter: () => _getHeight(pageValue),
           child: child!,
         ),
@@ -89,20 +88,20 @@ class _DatePageViewState extends State<DatePageView> {
   Widget _buildScrollingChild() {
     return Scrollable(
       axisDirection: AxisDirection.right,
-      physics: DateScrollPhysics(_controller!.map((it) => it.visibleRange)),
+      physics: DateScrollPhysics(_controller!.map((final it) => it.visibleRange)),
       controller: _scrollController!,
-      viewportBuilder: (context, position) {
+      viewportBuilder: (final context, final position) {
         return Viewport(
           axisDirection: AxisDirection.right,
           offset: position,
           slivers: [
             ValueListenableBuilder<int>(
-              valueListenable: _controller!.map((it) => it.visibleDayCount),
-              builder: (context, visibleDayCount, _) => SliverFillViewport(
+              valueListenable: _controller!.map((final it) => it.visibleDayCount),
+              builder: (final context, final visibleDayCount, final _) => SliverFillViewport(
                 padEnds: false,
                 viewportFraction: 1 / visibleDayCount,
                 delegate: SliverChildBuilderDelegate(
-                  (context, index) => _buildPage(context, _minPage + index),
+                  (final context, final index) => _buildPage(context, _minPage + index),
                 ),
               ),
             ),
@@ -115,7 +114,7 @@ class _DatePageViewState extends State<DatePageView> {
   Widget _buildNonScrollingChild() {
     return ValueListenableBuilder<DatePageValue>(
       valueListenable: _controller!,
-      builder: (context, value, _) => Row(
+      builder: (final context, final value, final _) => Row(
         children: [
           for (var i = 0; i < value.visibleDayCount; i++)
             Expanded(child: _buildPage(context, value.page.toInt() + i)),
@@ -124,11 +123,11 @@ class _DatePageViewState extends State<DatePageView> {
     );
   }
 
-  double _getHeight(DatePageValue pageValue) {
-    double maxHeightFrom(int page) {
+  double _getHeight(final DatePageValue pageValue) {
+    double maxHeightFrom(final int page) {
       return page
           .until(page + pageValue.visibleDayCount)
-          .map((it) => _heights[it] ?? 0)
+          .map((final it) => _heights[it] ?? 0)
           .max()!;
     }
 
@@ -138,14 +137,14 @@ class _DatePageViewState extends State<DatePageView> {
     return lerpDouble(oldMaxHeight, newMaxHeight, t)!;
   }
 
-  Widget _buildPage(BuildContext context, int page) {
+  Widget _buildPage(final BuildContext context, final int page) {
     var child = widget.builder(context, DateTimeTimetable.dateFromPage(page));
     if (widget.shrinkWrapInCrossAxis) {
       child = ImmediateSizeReportingOverflowPage(
-        onSizeChanged: (size) {
+        onSizeChanged: (final size) {
           if (_heights[page] == size.height) return;
           _heights[page] = size.height;
-          WidgetsBinding.instance!.addPostFrameCallback((_) => setState(() {}));
+          WidgetsBinding.instance.addPostFrameCallback((final _) => setState(() {}));
         },
         child: child,
       );
@@ -176,7 +175,7 @@ class _MultiDateScrollController extends ScrollController {
   }
 
   @override
-  void attach(ScrollPosition position) {
+  void attach(final ScrollPosition position) {
     assert(
       position is MultiDateScrollPosition,
       '_MultiDateScrollControllers can only be used with '
@@ -192,9 +191,9 @@ class _MultiDateScrollController extends ScrollController {
 
   @override
   MultiDateScrollPosition createScrollPosition(
-    ScrollPhysics physics,
-    ScrollContext context,
-    ScrollPosition? oldPosition,
+    final ScrollPhysics physics,
+    final ScrollContext context,
+    final ScrollPosition? oldPosition,
   ) {
     return MultiDateScrollPosition(
       this,
@@ -213,10 +212,10 @@ class _MultiDateScrollController extends ScrollController {
 class MultiDateScrollPosition extends ScrollPositionWithSingleContext {
   MultiDateScrollPosition(
     this.owner, {
-    required ScrollPhysics physics,
-    required ScrollContext context,
+    required final ScrollPhysics physics,
+    required final ScrollContext context,
     required this.initialPage,
-    ScrollPosition? oldPosition,
+    final ScrollPosition? oldPosition,
   }) : super(
           physics: physics,
           context: context,
@@ -231,7 +230,7 @@ class MultiDateScrollPosition extends ScrollPositionWithSingleContext {
   double get page => pixelsToPage(pixels);
 
   @override
-  bool applyViewportDimension(double viewportDimension) {
+  bool applyViewportDimension(final double viewportDimension) {
     final hadViewportDimension = hasViewportDimension;
     final isInitialLayout = !hasPixels || !hadViewportDimension;
     final oldPixels = hasPixels ? pixels : null;
@@ -255,7 +254,7 @@ class MultiDateScrollPosition extends ScrollPositionWithSingleContext {
   }
 
   @override
-  void goBallistic(double velocity) {
+  void goBallistic(final double velocity) {
     if (_isApplyingNewDimensions) {
       assert(velocity == 0);
       return;
@@ -264,7 +263,7 @@ class MultiDateScrollPosition extends ScrollPositionWithSingleContext {
   }
 
   @override
-  double setPixels(double newPixels) {
+  double setPixels(final double newPixels) {
     if (newPixels == pixels) return 0;
 
     _updateUserScrollDirectionFromDelta(newPixels - pixels);
@@ -273,26 +272,26 @@ class MultiDateScrollPosition extends ScrollPositionWithSingleContext {
     return overscroll;
   }
 
-  void forcePage(double page) => forcePixels(pageToPixels(page));
+  void forcePage(final double page) => forcePixels(pageToPixels(page));
   @override
-  void forcePixels(double value) {
+  void forcePixels(final double value) {
     if (value == pixels) return;
 
     _updateUserScrollDirectionFromDelta(value - pixels);
     super.forcePixels(value);
   }
 
-  void _updateUserScrollDirectionFromDelta(double delta) {
+  void _updateUserScrollDirectionFromDelta(final double delta) {
     final direction =
         delta > 0 ? ScrollDirection.forward : ScrollDirection.reverse;
     updateUserScrollDirection(direction);
   }
 
-  double pixelsToPage(double pixels) =>
+  double pixelsToPage(final double pixels) =>
       _minPage + pixelDeltaToPageDelta(pixels);
-  double pageToPixels(double page) => pageDeltaToPixelDelta(page - _minPage);
+  double pageToPixels(final double page) => pageDeltaToPixelDelta(page - _minPage);
 
-  double pixelDeltaToPageDelta(double pixels) {
+  double pixelDeltaToPageDelta(final double pixels) {
     final result = pixels * owner.visibleDayCount / viewportDimension;
     final closestWholeNumber = result.roundToDouble();
     if ((result - closestWholeNumber).abs() <= _precisionErrorTolerance) {
@@ -301,11 +300,11 @@ class MultiDateScrollPosition extends ScrollPositionWithSingleContext {
     return result;
   }
 
-  double pageDeltaToPixelDelta(double page) =>
+  double pageDeltaToPixelDelta(final double page) =>
       page / owner.visibleDayCount * viewportDimension;
 
   @override
-  void debugFillDescription(List<String> description) {
+  void debugFillDescription(final List<String> description) {
     super.debugFillDescription(description);
     description.add('owner: $owner');
   }

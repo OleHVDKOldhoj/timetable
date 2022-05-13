@@ -13,7 +13,7 @@ import '../utils.dart';
 ///   descendant Timetable widgets.
 class HourDividers extends StatelessWidget {
   const HourDividers({
-    Key? key,
+    final Key? key,
     this.style,
     this.child,
   }) : super(key: key);
@@ -22,7 +22,7 @@ class HourDividers extends StatelessWidget {
   final Widget? child;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return CustomPaint(
       painter: _HourDividersPainter(
         style: style ?? TimetableTheme.orDefaultOf(context).hourDividersStyle,
@@ -40,9 +40,9 @@ class HourDividers extends StatelessWidget {
 @immutable
 class HourDividersStyle {
   factory HourDividersStyle(
-    BuildContext context, {
-    Color? color,
-    double? width,
+    final BuildContext context, {
+    final Color? color,
+    final double? width,
   }) {
     final dividerBorderSide = Divider.createBorderSide(context);
     return HourDividersStyle.raw(
@@ -59,7 +59,7 @@ class HourDividersStyle {
   final Color color;
   final double width;
 
-  HourDividersStyle copyWith({Color? color, double? width}) {
+  HourDividersStyle copyWith({final Color? color, final double? width}) {
     return HourDividersStyle.raw(
       color: color ?? this.color,
       width: width ?? this.width,
@@ -69,7 +69,7 @@ class HourDividersStyle {
   @override
   int get hashCode => hashValues(color, width);
   @override
-  bool operator ==(Object other) {
+  bool operator ==(final Object other) {
     return other is HourDividersStyle &&
         color == other.color &&
         width == other.width;
@@ -87,7 +87,7 @@ class _HourDividersPainter extends CustomPainter {
   final Paint _paint;
 
   @override
-  void paint(Canvas canvas, Size size) {
+  void paint(final Canvas canvas, final Size size) {
     final heightPerHour = size.height / Duration.hoursPerDay;
     for (final h in InternalDateTimeTimetable.innerDateHours) {
       final y = h * heightPerHour;
@@ -96,6 +96,6 @@ class _HourDividersPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_HourDividersPainter oldDelegate) =>
+  bool shouldRepaint(final _HourDividersPainter oldDelegate) =>
       style != oldDelegate.style;
 }

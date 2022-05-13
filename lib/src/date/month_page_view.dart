@@ -43,24 +43,23 @@ class _MonthPageViewState extends State<MonthPageView> {
 
   void _onMonthChanged() {
     final page = _controller._pageController.page!.round();
-    _heights.removeWhere((key, _) => (key - page).abs() > 5);
+    _heights.removeWhere((final key, final _) => (key - page).abs() > 5);
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     Widget child = PageView.builder(
       controller: _controller._pageController,
-      itemBuilder: (context, page) {
+      itemBuilder: (final context, final page) {
         final month = MonthPageController._monthFromPage(page);
 
         var child = widget.builder(context, month);
         if (widget.shrinkWrapInCrossAxis) {
           child = ImmediateSizeReportingOverflowPage(
-            onSizeChanged: (size) {
+            onSizeChanged: (final size) {
               if (_heights[page] == size.height) return;
               _heights[page] = size.height;
-              WidgetsBinding.instance!
-                  .addPostFrameCallback((_) => setState(() {}));
+              WidgetsBinding.instance.addPostFrameCallback((final _) => setState(() {}));
             },
             child: child,
           );
@@ -72,7 +71,7 @@ class _MonthPageViewState extends State<MonthPageView> {
     if (widget.shrinkWrapInCrossAxis) {
       child = AnimatedBuilder(
         animation: _controller._pageController,
-        builder: (context, child) => ImmediateSizedBox(
+        builder: (final context, final child) => ImmediateSizedBox(
           // By using a lambda, the `heightGetter`'s identity changes with every
           // call, forcing the `ImmediateSizedBox` to run a new layout pass.
           // ignore: unnecessary_lambdas
@@ -105,7 +104,7 @@ class _MonthPageViewState extends State<MonthPageView> {
 /// Controls a [MonthPageView].
 class MonthPageController extends ChangeNotifier
     implements ValueListenable<DateTime> {
-  MonthPageController({required DateTime initialMonth})
+  MonthPageController({required final DateTime initialMonth})
       : assert(initialMonth.isValidTimetableMonth),
         _pageController =
             PageController(initialPage: _pageFromMonth(initialMonth)) {
@@ -145,16 +144,16 @@ class MonthPageController extends ChangeNotifier
     return DateTimeTimetable.month(year, month);
   }
 
-  static int _pageFromMonth(DateTime month) {
+  static int _pageFromMonth(final DateTime month) {
     assert(month.isValidTimetableMonth);
     return (month.year * DateTime.monthsPerYear) + (month.month - 1) - _minPage;
   }
 
   // Animation
   Future<void> animateTo(
-    DateTime month, {
-    Curve curve = Curves.easeInOut,
-    Duration duration = const Duration(milliseconds: 200),
+    final DateTime month, {
+    final Curve curve = Curves.easeInOut,
+    final Duration duration = const Duration(milliseconds: 200),
   }) async {
     await _pageController.animateToPage(
       _pageFromMonth(month),
@@ -163,6 +162,6 @@ class MonthPageController extends ChangeNotifier
     );
   }
 
-  void jumpTo(DateTime month) =>
+  void jumpTo(final DateTime month) =>
       _pageController.jumpToPage(_pageFromMonth(month));
 }

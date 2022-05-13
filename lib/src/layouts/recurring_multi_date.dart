@@ -25,27 +25,27 @@ import 'multi_date.dart';
 ///   concrete dates and be swipeable.
 class RecurringMultiDateTimetable<E extends Event> extends StatelessWidget {
   RecurringMultiDateTimetable({
-    Key? key,
-    WidgetBuilder? timetableBuilder,
+    final Key? key,
+    final WidgetBuilder? timetableBuilder,
   })  : timetableBuilder = timetableBuilder ?? _defaultTimetableBuilder<E>(),
         super(key: key);
 
   final WidgetBuilder timetableBuilder;
   static WidgetBuilder _defaultTimetableBuilder<E extends Event>() {
-    return (context) => MultiDateTimetable<E>(
-          headerBuilder: (header, leadingWidth) => MultiDateTimetableHeader<E>(
+    return (final context) => MultiDateTimetable<E>(
+          headerBuilder: (final header, final leadingWidth) => MultiDateTimetableHeader<E>(
             leading: SizedBox(width: leadingWidth),
           ),
         );
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     final theme = TimetableTheme.orDefaultOf(context);
 
     return TimetableTheme(
       data: theme.copyWith(
-        dateHeaderStyleProvider: (date) => theme
+        dateHeaderStyleProvider: (final date) => theme
             .dateHeaderStyleProvider(date)
             .copyWith(showDateIndicator: false),
       ),

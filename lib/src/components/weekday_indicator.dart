@@ -17,7 +17,7 @@ import '../utils.dart';
 class WeekdayIndicator extends StatelessWidget {
   WeekdayIndicator(
     this.date, {
-    Key? key,
+    final Key? key,
     this.style,
   })  : assert(date.isValidTimetableDate),
         super(key: key);
@@ -26,7 +26,7 @@ class WeekdayIndicator extends StatelessWidget {
   final WeekdayIndicatorStyle? style;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     final style = this.style ??
         TimetableTheme.orDefaultOf(context).weekdayIndicatorStyleProvider(date);
 
@@ -48,12 +48,12 @@ class WeekdayIndicator extends StatelessWidget {
 @immutable
 class WeekdayIndicatorStyle {
   factory WeekdayIndicatorStyle(
-    BuildContext context,
-    DateTime date, {
-    Decoration? decoration,
-    EdgeInsetsGeometry? padding,
-    TextStyle? textStyle,
-    String? label,
+    final BuildContext context,
+    final DateTime date, {
+    final Decoration? decoration,
+    final EdgeInsetsGeometry? padding,
+    final TextStyle? textStyle,
+    final String? label,
   }) {
     assert(date.isValidTimetableDate);
 
@@ -88,10 +88,10 @@ class WeekdayIndicatorStyle {
   final String label;
 
   WeekdayIndicatorStyle copyWith({
-    Decoration? decoration,
-    EdgeInsetsGeometry? padding,
-    TextStyle? textStyle,
-    String? label,
+    final Decoration? decoration,
+    final EdgeInsetsGeometry? padding,
+    final TextStyle? textStyle,
+    final String? label,
   }) {
     return WeekdayIndicatorStyle.raw(
       decoration: decoration ?? this.decoration,
@@ -104,7 +104,7 @@ class WeekdayIndicatorStyle {
   @override
   int get hashCode => hashValues(decoration, padding, textStyle, label);
   @override
-  bool operator ==(Object other) {
+  bool operator ==(final Object other) {
     return other is WeekdayIndicatorStyle &&
         decoration == other.decoration &&
         padding == other.padding &&

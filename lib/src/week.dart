@@ -22,7 +22,7 @@ class Week implements Comparable<Week> {
   const Week(this.weekBasedYear, this.weekOfYear)
       : assert(weekOfYear >= 1 && weekOfYear <= 53);
 
-  factory Week.forDate(DateTime date) {
+  factory Week.forDate(final DateTime date) {
     assert(date.isValidTimetableDate);
 
     // Algorithm from https://en.wikipedia.org/wiki/ISO_week_date#Calculating_the_week_number_from_a_month_and_day_of_the_month_or_ordinal_date
@@ -50,7 +50,7 @@ class Week implements Comparable<Week> {
   final int weekBasedYear;
   final int weekOfYear;
 
-  DateTime getDayOfWeek(int dayOfWeek) {
+  DateTime getDayOfWeek(final int dayOfWeek) {
     assert(dayOfWeek.isValidTimetableDayOfWeek);
 
     // Algorithm from https://en.wikipedia.org/wiki/ISO_week_date#`Calculating_an_ordinal_or_month_date_from_a_week_date`
@@ -62,7 +62,7 @@ class Week implements Comparable<Week> {
   }
 
   @override
-  int compareTo(Week other) {
+  int compareTo(final Week other) {
     final result = weekBasedYear.compareTo(other.weekBasedYear);
     if (result != 0) return result;
     return weekOfYear.compareTo(other.weekOfYear);
@@ -72,7 +72,7 @@ class Week implements Comparable<Week> {
   int get hashCode => hashValues(weekBasedYear, weekOfYear);
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(final Object other) {
     return other is Week &&
         other.weekBasedYear == weekBasedYear &&
         other.weekOfYear == weekOfYear;

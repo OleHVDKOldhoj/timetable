@@ -11,27 +11,27 @@ typedef EventBuilder<E extends Event> = Widget Function(
 class DefaultEventBuilder<E extends Event> extends InheritedWidget {
   DefaultEventBuilder({
     required this.builder,
-    AllDayEventBuilder<E>? allDayBuilder,
-    required Widget child,
+    final AllDayEventBuilder<E>? allDayBuilder,
+    required final Widget child,
   })  : allDayBuilder =
-            allDayBuilder ?? ((context, event, _) => builder(context, event)),
+            allDayBuilder ?? ((final context, final event, final _) => builder(context, event)),
         super(child: child);
 
   final EventBuilder<E> builder;
   final AllDayEventBuilder<E> allDayBuilder;
 
   @override
-  bool updateShouldNotify(DefaultEventBuilder<E> oldWidget) =>
+  bool updateShouldNotify(final DefaultEventBuilder<E> oldWidget) =>
       builder != oldWidget.builder || allDayBuilder != oldWidget.allDayBuilder;
 
-  static EventBuilder<E>? of<E extends Event>(BuildContext context) {
+  static EventBuilder<E>? of<E extends Event>(final BuildContext context) {
     return context
         .dependOnInheritedWidgetOfExactType<DefaultEventBuilder<E>>()
         ?.builder;
   }
 
   static AllDayEventBuilder<E>? allDayOf<E extends Event>(
-    BuildContext context,
+    final BuildContext context,
   ) {
     return context
         .dependOnInheritedWidgetOfExactType<DefaultEventBuilder<E>>()
