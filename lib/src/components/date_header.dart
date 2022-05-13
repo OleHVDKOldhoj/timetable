@@ -24,7 +24,7 @@ import 'weekday_indicator.dart';
 class DateHeader extends StatelessWidget {
   DateHeader(
     this.date, {
-    Key? key,
+    final Key? key,
     this.onTap,
     this.style,
   })  : assert(date.isValidTimetableDate),
@@ -35,7 +35,7 @@ class DateHeader extends StatelessWidget {
   final DateHeaderStyle? style;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     final style = this.style ??
         TimetableTheme.orDefaultOf(context).dateHeaderStyleProvider(date);
     final callbacks = DefaultTimetableCallbacks.of(context);
@@ -75,13 +75,13 @@ class DateHeader extends StatelessWidget {
 @immutable
 class DateHeaderStyle {
   factory DateHeaderStyle(
-    BuildContext context,
-    DateTime date, {
-    String? tooltip,
-    EdgeInsetsGeometry? padding,
-    bool? showWeekdayIndicator,
-    double? indicatorSpacing,
-    bool? showDateIndicator,
+    final BuildContext context,
+    final DateTime date, {
+    final String? tooltip,
+    final EdgeInsetsGeometry? padding,
+    final bool? showWeekdayIndicator,
+    final double? indicatorSpacing,
+    final bool? showDateIndicator,
   }) {
     assert(date.isValidTimetableDate);
 
@@ -113,11 +113,11 @@ class DateHeaderStyle {
   final bool showDateIndicator;
 
   DateHeaderStyle copyWith({
-    String? tooltip,
-    EdgeInsetsGeometry? padding,
-    bool? showWeekdayIndicator,
-    double? indicatorSpacing,
-    bool? showDateIndicator,
+    final String? tooltip,
+    final EdgeInsetsGeometry? padding,
+    final bool? showWeekdayIndicator,
+    final double? indicatorSpacing,
+    final bool? showDateIndicator,
   }) {
     return DateHeaderStyle.raw(
       tooltip: tooltip ?? this.tooltip,
@@ -137,7 +137,7 @@ class DateHeaderStyle {
         showDateIndicator,
       );
   @override
-  bool operator ==(Object other) {
+  bool operator ==(final Object other) {
     return other is DateHeaderStyle &&
         tooltip == other.tooltip &&
         padding == other.padding &&

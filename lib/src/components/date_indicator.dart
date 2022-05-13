@@ -23,7 +23,7 @@ import '../utils.dart';
 class DateIndicator extends StatelessWidget {
   DateIndicator(
     this.date, {
-    Key? key,
+    final Key? key,
     this.onTap,
     this.style,
   })  : assert(date.isValidTimetableDate),
@@ -34,7 +34,7 @@ class DateIndicator extends StatelessWidget {
   final DateIndicatorStyle? style;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     final style = this.style ??
         TimetableTheme.orDefaultOf(context).dateIndicatorStyleProvider(date);
     final defaultOnTap = DefaultTimetableCallbacks.of(context)?.onDateTap;
@@ -60,12 +60,12 @@ class DateIndicator extends StatelessWidget {
 @immutable
 class DateIndicatorStyle {
   factory DateIndicatorStyle(
-    BuildContext context,
-    DateTime date, {
-    Decoration? decoration,
-    EdgeInsetsGeometry? padding,
-    TextStyle? textStyle,
-    String? label,
+    final BuildContext context,
+    final DateTime date, {
+    final Decoration? decoration,
+    final EdgeInsetsGeometry? padding,
+    final TextStyle? textStyle,
+    final String? label,
   }) {
     assert(date.isValidTimetableDate);
 
@@ -110,10 +110,10 @@ class DateIndicatorStyle {
   final String label;
 
   DateIndicatorStyle copyWith({
-    Decoration? decoration,
-    EdgeInsetsGeometry? padding,
-    TextStyle? textStyle,
-    String? label,
+    final Decoration? decoration,
+    final EdgeInsetsGeometry? padding,
+    final TextStyle? textStyle,
+    final String? label,
   }) {
     return DateIndicatorStyle.raw(
       decoration: decoration ?? this.decoration,
@@ -126,7 +126,7 @@ class DateIndicatorStyle {
   @override
   int get hashCode => hashValues(decoration, padding, textStyle, label);
   @override
-  bool operator ==(Object other) {
+  bool operator ==(final Object other) {
     return other is DateIndicatorStyle &&
         decoration == other.decoration &&
         padding == other.padding &&

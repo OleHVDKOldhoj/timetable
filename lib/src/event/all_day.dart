@@ -1,9 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:meta/meta.dart';
 
 import '../utils.dart';
 import 'event.dart';
@@ -30,7 +28,7 @@ class AllDayEventLayoutInfo {
   final double hiddenEndDays;
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(final dynamic other) {
     return other is AllDayEventLayoutInfo &&
         hiddenStartDays == other.hiddenStartDays &&
         hiddenEndDays == other.hiddenEndDays;
@@ -53,11 +51,11 @@ class AllDayEventBackgroundPainter extends CustomPainter {
   final Paint _paint;
 
   @override
-  void paint(Canvas canvas, Size size) =>
+  void paint(final Canvas canvas, final Size size) =>
       canvas.drawPath(radii.getPath(size, info), _paint);
 
   @override
-  bool shouldRepaint(covariant AllDayEventBackgroundPainter oldDelegate) {
+  bool shouldRepaint(covariant final AllDayEventBackgroundPainter oldDelegate) {
     return info != oldDelegate.info ||
         color != oldDelegate.color ||
         radii != oldDelegate.radii;
@@ -81,7 +79,7 @@ class AllDayEventBorder extends ShapeBorder {
   EdgeInsetsGeometry get dimensions => EdgeInsets.all(side.width);
 
   @override
-  ShapeBorder scale(double t) {
+  ShapeBorder scale(final double t) {
     return AllDayEventBorder(
       info: info,
       side: side.scale(t),
@@ -94,18 +92,18 @@ class AllDayEventBorder extends ShapeBorder {
   }
 
   @override
-  Path getInnerPath(Rect rect, {TextDirection? textDirection}) {
+  Path getInnerPath(final Rect rect, {final TextDirection? textDirection}) {
     return radii
         .getPath(rect.deflate(side.width).size, info)
         .shift(Offset(side.width, side.width));
   }
 
   @override
-  Path getOuterPath(Rect rect, {TextDirection? textDirection}) =>
+  Path getOuterPath(final Rect rect, {final TextDirection? textDirection}) =>
       radii.getPath(rect.size, info);
 
   @override
-  void paint(Canvas canvas, Rect rect, {TextDirection? textDirection}) {
+  void paint(final Canvas canvas, final Rect rect, {final TextDirection? textDirection}) {
     // For some reason, when we paint the background in this shape directly, it
     // lags while scrolling. Hence, we only use it to provide the outer path
     // used for clipping.
@@ -114,7 +112,7 @@ class AllDayEventBorder extends ShapeBorder {
   @override
   int get hashCode => hashValues(info, side, radii);
   @override
-  bool operator ==(Object other) {
+  bool operator ==(final Object other) {
     if (other.runtimeType != runtimeType) return false;
     return other is AllDayEventBorder &&
         other.info == info &&
@@ -139,7 +137,7 @@ class AllDayEventBorderRadii {
   final double leftTipRadius;
   final double rightTipRadius;
 
-  Path getPath(Size size, AllDayEventLayoutInfo info) {
+  Path getPath(final Size size, final AllDayEventLayoutInfo info) {
     final maxTipWidth = size.height / 4;
     final leftTipWidth = info.hiddenStartDays.coerceAtMost(1) * maxTipWidth;
     final rightTipWidth = info.hiddenEndDays.coerceAtMost(1) * maxTipWidth;
@@ -191,7 +189,7 @@ class AllDayEventBorderRadii {
     final rightTipAngle =
         math.pi / 2 - math.atan2(size.height / 2, rightTipWidth);
 
-    Size toSize(Radius radius) => Size(radius.x, radius.y) * 2;
+    Size toSize(final Radius radius) => Size(radius.x, radius.y) * 2;
 
     final topLeftTipBase = left + leftTipWidth + radii.cornerRadius.topLeft.x;
 
@@ -259,7 +257,7 @@ class AllDayEventBorderRadii {
   @override
   int get hashCode => hashValues(cornerRadius, leftTipRadius, rightTipRadius);
   @override
-  bool operator ==(Object other) {
+  bool operator ==(final Object other) {
     return other is AllDayEventBorderRadii &&
         cornerRadius == other.cornerRadius &&
         leftTipRadius == other.leftTipRadius &&

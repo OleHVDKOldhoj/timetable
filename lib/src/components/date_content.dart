@@ -20,14 +20,14 @@ import 'time_overlays.dart';
 ///   Timetable widgets.
 class DateContent<E extends Event> extends StatelessWidget {
   DateContent({
-    Key? key,
+    final Key? key,
     required this.date,
-    required List<E> events,
+    required final List<E> events,
     this.overlays = const [],
     this.onBackgroundTap,
   })  : assert(date.isValidTimetableDate),
         assert(
-          events.every((e) => e.interval.intersects(date.fullDayInterval)),
+          events.every((final e) => e.interval.intersects(date.fullDayInterval)),
           'All events must intersect the given date',
         ),
         assert(
@@ -45,17 +45,17 @@ class DateContent<E extends Event> extends StatelessWidget {
   final DateTimeTapCallback? onBackgroundTap;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     final onBackgroundTap = this.onBackgroundTap ??
         DefaultTimetableCallbacks.of(context)?.onDateTimeBackgroundTap;
 
-    return LayoutBuilder(builder: (context, constraints) {
+    return LayoutBuilder(builder: (final context, final constraints) {
       final height = constraints.maxHeight;
 
       return GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTapUp: onBackgroundTap != null
-            ? (details) =>
+            ? (final details) =>
                 onBackgroundTap(date + (details.localPosition.dy / height).days)
             : null,
         child: Stack(children: [
@@ -67,10 +67,10 @@ class DateContent<E extends Event> extends StatelessWidget {
     });
   }
 
-  Widget _buildOverlaysForPosition(TimeOverlayPosition position) {
+  Widget _buildOverlaysForPosition(final TimeOverlayPosition position) {
     return Positioned.fill(
       child: TimeOverlays(
-        overlays: overlays.where((it) => it.position == position).toList(),
+        overlays: overlays.where((final it) => it.position == position).toList(),
       ),
     );
   }

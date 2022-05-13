@@ -19,11 +19,11 @@ abstract class VisibleDateRange {
   /// When set, swiping is limited from `minDate` to `maxDate` so that both can
   /// still be seen.
   factory VisibleDateRange.days(
-    int visibleDayCount, {
-    int swipeRange,
-    DateTime? alignmentDate,
-    DateTime? minDate,
-    DateTime? maxDate,
+    final int visibleDayCount, {
+    final int swipeRange,
+    final DateTime? alignmentDate,
+    final DateTime? minDate,
+    final DateTime? maxDate,
   }) = DaysVisibleDateRange;
 
   /// A visible range that shows seven consecutive days, aligned to
@@ -32,9 +32,9 @@ abstract class VisibleDateRange {
   /// When set, swiping is limited from `minDate` to `maxDate` so that both can
   /// still be seen.
   factory VisibleDateRange.week({
-    int startOfWeek = DateTime.monday,
-    DateTime? minDate,
-    DateTime? maxDate,
+    final int startOfWeek = DateTime.monday,
+    final DateTime? minDate,
+    final DateTime? maxDate,
   }) {
     return VisibleDateRange.weekAligned(
       DateTime.daysPerWeek,
@@ -50,10 +50,10 @@ abstract class VisibleDateRange {
   /// When set, swiping is limited from `minDate` to `maxDate` so that both can
   /// still be seen.
   factory VisibleDateRange.weekAligned(
-    int visibleDayCount, {
-    int firstDay = DateTime.monday,
-    DateTime? minDate,
-    DateTime? maxDate,
+    final int visibleDayCount, {
+    final int firstDay = DateTime.monday,
+    final DateTime? minDate,
+    final DateTime? maxDate,
   }) {
     return VisibleDateRange.days(
       visibleDayCount,
@@ -70,21 +70,21 @@ abstract class VisibleDateRange {
   /// A non-scrollable visible range.
   ///
   /// This is useful for, e.g., [RecurringMultiDateTimetable].
-  factory VisibleDateRange.fixed(DateTime startDate, int visibleDayCount) =>
+  factory VisibleDateRange.fixed(final DateTime startDate, final int visibleDayCount) =>
       FixedDaysVisibleDateRange(startDate, visibleDayCount);
 
   final int visibleDayCount;
   final bool canScroll;
 
-  double getTargetPageForFocus(double focusPage);
+  double getTargetPageForFocus(final double focusPage);
 
   double getTargetPageForCurrent(
-    double currentPage, {
-    double velocity = 0,
-    Tolerance tolerance = Tolerance.defaultTolerance,
+    final double currentPage, {
+    final double velocity = 0,
+    final Tolerance tolerance = Tolerance.defaultTolerance,
   });
 
-  double applyBoundaryConditions(double page) {
+  double applyBoundaryConditions(final double page) {
     if (!canScroll) {
       throw StateError(
         'A non-scrollable `$runtimeType` was used in a scrollable view.',
@@ -98,9 +98,9 @@ abstract class VisibleDateRange {
 /// [VisibleDateRange.weekAligned].
 class DaysVisibleDateRange extends VisibleDateRange {
   DaysVisibleDateRange(
-    int visibleDayCount, {
+    final int visibleDayCount, {
     this.swipeRange = 1,
-    DateTime? alignmentDate,
+    final DateTime? alignmentDate,
     this.minDate,
     this.maxDate,
   })  : alignmentDate = alignmentDate ?? DateTimeTimetable.today(),
@@ -125,9 +125,9 @@ class DaysVisibleDateRange extends VisibleDateRange {
 
   @override
   double getTargetPageForFocus(
-    double focusPage, {
-    double velocity = 0,
-    Tolerance tolerance = Tolerance.defaultTolerance,
+    final double focusPage, {
+    final double velocity = 0,
+    final Tolerance tolerance = Tolerance.defaultTolerance,
   }) {
     // Taken from [_InteractiveViewerState._kDrag].
     const _kDrag = 0.0000135;
@@ -144,7 +144,7 @@ class DaysVisibleDateRange extends VisibleDateRange {
     return (alignmentOffset + swipeAlignedTargetPage).toDouble();
   }
 
-  double _getMinimumPageForFocus(double focusPage) {
+  double _getMinimumPageForFocus(final double focusPage) {
     var page = focusPage - visibleDayCount;
     while (true) {
       final target = getTargetPageForFocus(page);
@@ -155,9 +155,9 @@ class DaysVisibleDateRange extends VisibleDateRange {
 
   @override
   double getTargetPageForCurrent(
-    double currentPage, {
-    double velocity = 0,
-    Tolerance tolerance = Tolerance.defaultTolerance,
+    final double currentPage, {
+    final double velocity = 0,
+    final Tolerance tolerance = Tolerance.defaultTolerance,
   }) {
     return getTargetPageForFocus(
       currentPage + swipeRange / 2,
@@ -167,7 +167,7 @@ class DaysVisibleDateRange extends VisibleDateRange {
   }
 
   @override
-  double applyBoundaryConditions(double page) {
+  double applyBoundaryConditions(final double page) {
     final targetPage = page.coerceIn(
       minPage ?? double.negativeInfinity,
       maxPage ?? double.infinity,
@@ -182,7 +182,7 @@ class DaysVisibleDateRange extends VisibleDateRange {
 class FixedDaysVisibleDateRange extends VisibleDateRange {
   FixedDaysVisibleDateRange(
     this.startDate,
-    int visibleDayCount,
+    final int visibleDayCount,
   )   : assert(startDate.isValidTimetableDate),
         super(visibleDayCount: visibleDayCount, canScroll: false);
 
@@ -191,17 +191,17 @@ class FixedDaysVisibleDateRange extends VisibleDateRange {
 
   @override
   double getTargetPageForFocus(
-    double focusPage, {
-    double velocity = 0,
-    Tolerance tolerance = Tolerance.defaultTolerance,
+    final double focusPage, {
+    final double velocity = 0,
+    final Tolerance tolerance = Tolerance.defaultTolerance,
   }) =>
       page;
 
   @override
   double getTargetPageForCurrent(
-    double currentPage, {
-    double velocity = 0,
-    Tolerance tolerance = Tolerance.defaultTolerance,
+    final double currentPage, {
+    final double velocity = 0,
+    final Tolerance tolerance = Tolerance.defaultTolerance,
   }) =>
       page;
 }

@@ -21,15 +21,15 @@ import 'weekday_indicator.dart';
 class MonthWidget extends StatelessWidget {
   MonthWidget(
     this.month, {
-    DateWidgetBuilder? weekDayBuilder,
-    WeekWidgetBuilder? weekBuilder,
-    DateWidgetBuilder? dateBuilder,
+    final DateWidgetBuilder? weekDayBuilder,
+    final WeekWidgetBuilder? weekBuilder,
+    final DateWidgetBuilder? dateBuilder,
     this.style,
   })  : assert(month.isValidTimetableMonth),
         weekDayBuilder =
-            weekDayBuilder ?? ((context, date) => WeekdayIndicator(date)),
+            weekDayBuilder ?? ((final context, final date) => WeekdayIndicator(date)),
         weekBuilder = weekBuilder ??
-            ((context, week) {
+            ((final context, final week) {
               final timetableTheme = TimetableTheme.orDefaultOf(context);
               return WeekIndicator(
                 week,
@@ -43,7 +43,7 @@ class MonthWidget extends StatelessWidget {
               );
             }),
         dateBuilder = dateBuilder ??
-            ((context, date) {
+            ((final context, final date) {
               assert(date.isValidTimetableDate);
 
               final timetableTheme = TimetableTheme.orDefaultOf(context);
@@ -71,7 +71,7 @@ class MonthWidget extends StatelessWidget {
   final MonthWidgetStyle? style;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     final style = this.style ??
         TimetableTheme.orDefaultOf(context).monthWidgetStyleProvider(month);
 
@@ -81,7 +81,7 @@ class MonthWidget extends StatelessWidget {
 
     final today = DateTimeTimetable.today();
 
-    Widget buildDate(int week, int weekday) {
+    Widget buildDate(final int week, final int weekday) {
       final date = firstDay + (DateTime.daysPerWeek * week + weekday).days;
       if (!style.showDatesFromOtherMonths && date.firstDayOfMonth != month) {
         return SizedBox.shrink();
@@ -134,10 +134,10 @@ class MonthWidget extends StatelessWidget {
   }
 
   Widget _buildWeeks(
-    BuildContext context,
-    MonthWidgetStyle style,
-    DateTime firstDay,
-    int weekCount,
+    final BuildContext context,
+    final MonthWidgetStyle style,
+    final DateTime firstDay,
+    final int weekCount,
   ) {
     assert(firstDay.isValidTimetableDate);
 
@@ -168,15 +168,15 @@ class MonthWidget extends StatelessWidget {
 @immutable
 class MonthWidgetStyle {
   factory MonthWidgetStyle(
-    BuildContext context,
-    DateTime month, {
-    int? startOfWeek,
-    Decoration? weeksDecoration,
-    EdgeInsetsGeometry? weeksPadding,
+    final BuildContext context,
+    final DateTime month, {
+    final int? startOfWeek,
+    final Decoration? weeksDecoration,
+    final EdgeInsetsGeometry? weeksPadding,
     bool? removeIndividualWeekDecorations,
-    EdgeInsetsGeometry? datePadding,
-    bool? showDatesFromOtherMonths,
-    bool? showDatesFromOtherMonthsAsDisabled,
+    final EdgeInsetsGeometry? datePadding,
+    final bool? showDatesFromOtherMonths,
+    final bool? showDatesFromOtherMonthsAsDisabled,
   }) {
     assert(startOfWeek.isValidTimetableDayOfWeek);
     assert(month.isValidTimetableMonth);
@@ -225,13 +225,13 @@ class MonthWidgetStyle {
   final bool showDatesFromOtherMonthsAsDisabled;
 
   MonthWidgetStyle copyWith({
-    int? startOfWeek,
-    Decoration? weeksDecoration,
-    EdgeInsetsGeometry? weeksPadding,
-    bool? removeIndividualWeekDecorations,
-    EdgeInsetsGeometry? datePadding,
-    bool? showDatesFromOtherMonths,
-    bool? showDatesFromOtherMonthsAsDisabled,
+    final int? startOfWeek,
+    final Decoration? weeksDecoration,
+    final EdgeInsetsGeometry? weeksPadding,
+    final bool? removeIndividualWeekDecorations,
+    final EdgeInsetsGeometry? datePadding,
+    final bool? showDatesFromOtherMonths,
+    final bool? showDatesFromOtherMonthsAsDisabled,
   }) {
     return MonthWidgetStyle.raw(
       startOfWeek: startOfWeek ?? this.startOfWeek,
@@ -258,7 +258,7 @@ class MonthWidgetStyle {
         showDatesFromOtherMonthsAsDisabled,
       );
   @override
-  bool operator ==(Object other) {
+  bool operator ==(final Object other) {
     return other is MonthWidgetStyle &&
         startOfWeek == other.startOfWeek &&
         weeksDecoration == other.weeksDecoration &&

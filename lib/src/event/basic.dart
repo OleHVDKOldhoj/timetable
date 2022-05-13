@@ -1,5 +1,4 @@
 import 'package:black_hole_flutter/black_hole_flutter.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'all_day.dart';
@@ -15,8 +14,8 @@ class BasicEvent extends Event {
     required this.id,
     required this.title,
     required this.backgroundColor,
-    required DateTime start,
-    required DateTime end,
+    required final DateTime start,
+    required final DateTime end,
   }) : super(start: start, end: end);
 
   /// An ID for this event.
@@ -36,12 +35,12 @@ class BasicEvent extends Event {
   final Color backgroundColor;
 
   BasicEvent copyWith({
-    Object? id,
-    String? title,
-    Color? backgroundColor,
-    bool? showOnTop,
-    DateTime? start,
-    DateTime? end,
+    final Object? id,
+    final String? title,
+    final Color? backgroundColor,
+    final bool? showOnTop,
+    final DateTime? start,
+    final DateTime? end,
   }) {
     return BasicEvent(
       id: id ?? this.id,
@@ -55,7 +54,7 @@ class BasicEvent extends Event {
   @override
   int get hashCode => hashValues(super.hashCode, title, backgroundColor);
   @override
-  bool operator ==(dynamic other) =>
+  bool operator ==(final dynamic other) =>
       other is BasicEvent &&
       super == other &&
       title == other.title &&
@@ -66,7 +65,7 @@ class BasicEvent extends Event {
 class BasicEventWidget extends StatelessWidget {
   const BasicEventWidget(
     this.event, {
-    Key? key,
+    final Key? key,
     this.onTap,
     this.margin = const EdgeInsets.only(right: 1),
   }) : super(key: key);
@@ -80,7 +79,7 @@ class BasicEventWidget extends StatelessWidget {
   final EdgeInsetsGeometry margin;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return Padding(
       padding: margin,
       child: Material(
@@ -115,7 +114,7 @@ class BasicEventWidget extends StatelessWidget {
 class BasicAllDayEventWidget extends StatelessWidget {
   const BasicAllDayEventWidget(
     this.event, {
-    Key? key,
+    final Key? key,
     required this.info,
     this.onTap,
     this.style,
@@ -130,7 +129,7 @@ class BasicAllDayEventWidget extends StatelessWidget {
   final BasicAllDayEventWidgetStyle? style;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     final style = this.style ?? BasicAllDayEventWidgetStyle(context, event);
 
     return Padding(
@@ -172,12 +171,12 @@ class BasicAllDayEventWidget extends StatelessWidget {
 @immutable
 class BasicAllDayEventWidgetStyle {
   factory BasicAllDayEventWidgetStyle(
-    BuildContext context,
-    BasicEvent event, {
-    EdgeInsetsGeometry? margin,
-    AllDayEventBorderRadii? radii,
-    EdgeInsetsGeometry? padding,
-    TextStyle? textStyle,
+    final BuildContext context,
+    final BasicEvent event, {
+    final EdgeInsetsGeometry? margin,
+    final AllDayEventBorderRadii? radii,
+    final EdgeInsetsGeometry? padding,
+    final TextStyle? textStyle,
   }) {
     return BasicAllDayEventWidgetStyle.raw(
       margin: margin ?? EdgeInsets.all(2),
@@ -209,10 +208,10 @@ class BasicAllDayEventWidgetStyle {
   final TextStyle textStyle;
 
   BasicAllDayEventWidgetStyle copyWith({
-    EdgeInsetsGeometry? margin,
-    AllDayEventBorderRadii? radii,
-    EdgeInsetsGeometry? padding,
-    TextStyle? textStyle,
+    final EdgeInsetsGeometry? margin,
+    final AllDayEventBorderRadii? radii,
+    final EdgeInsetsGeometry? padding,
+    final TextStyle? textStyle,
   }) {
     return BasicAllDayEventWidgetStyle.raw(
       margin: margin ?? this.margin,
@@ -225,7 +224,7 @@ class BasicAllDayEventWidgetStyle {
   @override
   int get hashCode => hashValues(margin, radii, padding, textStyle);
   @override
-  bool operator ==(Object other) {
+  bool operator ==(final Object other) {
     return other is BasicAllDayEventWidgetStyle &&
         margin == other.margin &&
         radii == other.radii &&

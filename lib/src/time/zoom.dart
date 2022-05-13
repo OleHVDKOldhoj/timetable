@@ -14,7 +14,7 @@ import 'time_range.dart';
 /// This uses a [TimeController] to maintain its state, which has to be supplied
 /// by a [DefaultTimeController] above in the widget tree.
 class TimeZoom extends StatefulWidget {
-  const TimeZoom({Key? key, required this.child}) : super(key: key);
+  const TimeZoom({final Key? key, required this.child}) : super(key: key);
 
   final Widget child;
 
@@ -80,9 +80,9 @@ class _TimeZoomState extends State<TimeZoom>
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return LayoutBuilder(
-      builder: (context, constraints) {
+      builder: (final context, final constraints) {
         _parentHeight = constraints.maxHeight;
 
         _scrollController ??= _ScrollController(getOffset: () => _outerOffset);
@@ -98,7 +98,7 @@ class _TimeZoomState extends State<TimeZoom>
             _ScaleGestureRecognizer:
                 GestureRecognizerFactoryWithHandlers<_ScaleGestureRecognizer>(
               () => _ScaleGestureRecognizer(debugOwner: this),
-              (instance) {
+              (final instance) {
                 instance
                   ..onStart = _onScaleStart
                   ..onUpdate = _onScaleUpdate
@@ -112,7 +112,7 @@ class _TimeZoomState extends State<TimeZoom>
               controller: _scrollController!,
               child: ValueListenableBuilder<TimeRange>(
                 valueListenable: _controller!,
-                builder: (context, _, child) {
+                builder: (final context, final _, final child) {
                   // Layouts the child so only [_controller.maxRange] is
                   // visible.
                   final innerChildHeight = _outerChildHeight *
@@ -137,12 +137,12 @@ class _TimeZoomState extends State<TimeZoom>
     );
   }
 
-  void _onScaleStart(ScaleStartDetails details) {
+  void _onScaleStart(final ScaleStartDetails details) {
     _initialRange = _controller!.value;
     _lastFocus = _getFocusTime(details.localFocalPoint.dy);
   }
 
-  void _onScaleUpdate(ScaleUpdateDetails details) {
+  void _onScaleUpdate(final ScaleUpdateDetails details) {
     final rawScale = details.verticalScale;
     assert(rawScale >= 0);
     final Duration newDuration;
@@ -165,7 +165,7 @@ class _TimeZoomState extends State<TimeZoom>
     _setNewTimeRange(newStart, newDuration);
   }
 
-  void _onScaleEnd(ScaleEndDetails details) {
+  void _onScaleEnd(final ScaleEndDetails details) {
     _initialRange = null;
     _lastFocus = null;
 
@@ -210,17 +210,17 @@ class _TimeZoomState extends State<TimeZoom>
     );
   }
 
-  Duration _getFocusTime(double focalPoint) {
+  Duration _getFocusTime(final double focalPoint) {
     final range = _controller!.value;
     return range.startTime + _focusToDuration(focalPoint, range.duration);
   }
 
   Duration _focusToDuration(
-    double focalPoint,
-    Duration visibleDuration,
+    final double focalPoint,
+    final Duration visibleDuration,
   ) =>
       visibleDuration * (focalPoint / _parentHeight);
-  void _setNewTimeRange(Duration startTime, Duration duration) {
+  void _setNewTimeRange(final Duration startTime, final Duration duration) {
     final actualStartTime = startTime.coerceIn(
       _controller!.maxRange.startTime,
       _controller!.maxRange.endTime - duration,
@@ -238,16 +238,16 @@ class _TimeZoomState extends State<TimeZoom>
 class _NoDragSingleChildScrollView extends SingleChildScrollView {
   /// Creates a box in which a single widget can be scrolled.
   const _NoDragSingleChildScrollView({
-    Key? key,
-    Axis scrollDirection = Axis.vertical,
-    bool reverse = false,
-    EdgeInsetsGeometry? padding,
-    ScrollPhysics? physics,
-    ScrollController? controller,
-    Widget? child,
-    DragStartBehavior dragStartBehavior = DragStartBehavior.start,
-    Clip clipBehavior = Clip.hardEdge,
-    String? restorationId,
+    final Key? key,
+    final Axis scrollDirection = Axis.vertical,
+    final bool reverse = false,
+    final EdgeInsetsGeometry? padding,
+    final ScrollPhysics? physics,
+    final ScrollController? controller,
+    final Widget? child,
+    final DragStartBehavior dragStartBehavior = DragStartBehavior.start,
+    final Clip clipBehavior = Clip.hardEdge,
+    final String? restorationId,
   }) : super(
           key: key,
           scrollDirection: scrollDirection,
@@ -263,7 +263,7 @@ class _NoDragSingleChildScrollView extends SingleChildScrollView {
         );
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     // This is really ugly and relies on the implementation of
     // [SingleChildScrollView.build].
     final result = super.build(context) as Scrollable;
@@ -280,16 +280,16 @@ class _NoDragSingleChildScrollView extends SingleChildScrollView {
 
 class _Scrollable extends Scrollable {
   const _Scrollable({
-    Key? key,
-    AxisDirection axisDirection = AxisDirection.down,
-    ScrollController? controller,
-    ScrollPhysics? physics,
-    required ViewportBuilder viewportBuilder,
-    ScrollIncrementCalculator? incrementCalculator,
-    bool excludeFromSemantics = false,
-    int? semanticChildCount,
-    DragStartBehavior dragStartBehavior = DragStartBehavior.start,
-    String? restorationId,
+    final Key? key,
+    final AxisDirection axisDirection = AxisDirection.down,
+    final ScrollController? controller,
+    final ScrollPhysics? physics,
+    required final ViewportBuilder viewportBuilder,
+    final ScrollIncrementCalculator? incrementCalculator,
+    final bool excludeFromSemantics = false,
+    final int? semanticChildCount,
+    final DragStartBehavior dragStartBehavior = DragStartBehavior.start,
+    final String? restorationId,
   }) : super(
           key: key,
           axisDirection: axisDirection,
@@ -310,23 +310,23 @@ class _Scrollable extends Scrollable {
 class _ScrollableState extends ScrollableState {
   @override
   @protected
-  void setCanDrag(bool canDrag) {}
+  void setCanDrag(final bool canDrag) {}
 }
 
 // Copied and modified from [OverflowBox].
 class _VerticalOverflowBox extends SingleChildRenderObjectWidget {
   const _VerticalOverflowBox({
-    Key? key,
+    final Key? key,
     required this.height,
     required this.offset,
-    Widget? child,
+    final Widget? child,
   }) : super(key: key, child: child);
 
   final double height;
   final double offset;
 
   @override
-  _RenderVerticalOverflowBox createRenderObject(BuildContext context) {
+  _RenderVerticalOverflowBox createRenderObject(final BuildContext context) {
     return _RenderVerticalOverflowBox(
       height: height,
       offset: offset,
@@ -335,15 +335,15 @@ class _VerticalOverflowBox extends SingleChildRenderObjectWidget {
 
   @override
   void updateRenderObject(
-    BuildContext context,
-    _RenderVerticalOverflowBox renderObject,
+    final BuildContext context,
+    final _RenderVerticalOverflowBox renderObject,
   ) {
     renderObject.height = height;
     renderObject.offset = offset;
   }
 
   @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  void debugFillProperties(final DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties.add(DoubleProperty('height', height));
     properties.add(DoubleProperty('offset', offset));
@@ -353,16 +353,16 @@ class _VerticalOverflowBox extends SingleChildRenderObjectWidget {
 // Copied and modified from [RenderConstrainedOverflowBox].
 class _RenderVerticalOverflowBox extends RenderShiftedBox {
   _RenderVerticalOverflowBox({
-    RenderBox? child,
-    required double height,
-    required double offset,
+    final RenderBox? child,
+    required final double height,
+    required final double offset,
   })  : _height = height,
         _offset = offset,
         super(child);
 
   double get height => _height;
   double _height;
-  set height(double value) {
+  set height(final double value) {
     if (_height == value) return;
     _height = value;
     markNeedsLayout();
@@ -370,14 +370,14 @@ class _RenderVerticalOverflowBox extends RenderShiftedBox {
 
   double get offset => _offset;
   double _offset;
-  set offset(double value) {
+  set offset(final double value) {
     if (_offset == value) return;
     _offset = value;
     markNeedsLayout();
   }
 
   @override
-  Size computeDryLayout(BoxConstraints constraints) =>
+  Size computeDryLayout(final BoxConstraints constraints) =>
       _getInnerConstraints(constraints).biggest;
 
   @override
@@ -391,11 +391,11 @@ class _RenderVerticalOverflowBox extends RenderShiftedBox {
     size = Size(child!.size.width, constraints.maxHeight);
   }
 
-  BoxConstraints _getInnerConstraints(BoxConstraints constraints) =>
+  BoxConstraints _getInnerConstraints(final BoxConstraints constraints) =>
       constraints.copyWith(minHeight: height, maxHeight: height);
 
   @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  void debugFillProperties(final DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties.add(DoubleProperty('height', height));
     properties.add(DoubleProperty('offset', offset));
@@ -407,8 +407,8 @@ class _RenderVerticalOverflowBox extends RenderShiftedBox {
 // Copied and modified from https://github.com/flutter/flutter/blob/f4abaa0735eba4dfd8f33f73363911d63931fe03/packages/flutter/lib/src/gestures/scale.dart
 class _ScaleGestureRecognizer extends OneSequenceGestureRecognizer {
   _ScaleGestureRecognizer({
-    Object? debugOwner,
-    Set<PointerDeviceKind>? supportedDevices,
+    final Object? debugOwner,
+    final Set<PointerDeviceKind>? supportedDevices,
     this.dragStartBehavior = DragStartBehavior.down,
   }) : super(debugOwner: debugOwner, supportedDevices: supportedDevices);
 
@@ -462,7 +462,7 @@ class _ScaleGestureRecognizer extends OneSequenceGestureRecognizer {
   }
 
   @override
-  void addAllowedPointer(PointerEvent event) {
+  void addAllowedPointer(final PointerEvent event) {
     startTrackingPointer(event.pointer, event.transform);
     _velocityTrackers[event.pointer] = VelocityTracker.withKind(event.kind);
     if (_state == _ScaleState.ready) {
@@ -479,7 +479,7 @@ class _ScaleGestureRecognizer extends OneSequenceGestureRecognizer {
   }
 
   @override
-  void handleEvent(PointerEvent event) {
+  void handleEvent(final PointerEvent event) {
     assert(_state != _ScaleState.ready);
     var didChangeConfiguration = false;
     var shouldStartIfAccepted = false;
@@ -569,7 +569,7 @@ class _ScaleGestureRecognizer extends OneSequenceGestureRecognizer {
     }
   }
 
-  bool _reconfigure(int pointer) {
+  bool _reconfigure(final int pointer) {
     _initialFocalPoint = _currentFocalPoint;
     _initialSpan = _currentSpan;
     _initialLine = _currentLine;
@@ -606,8 +606,8 @@ class _ScaleGestureRecognizer extends OneSequenceGestureRecognizer {
   }
 
   void _advanceStateMachine(
-    bool shouldStartIfAccepted,
-    PointerDeviceKind pointerDeviceKind,
+    final bool shouldStartIfAccepted,
+    final PointerDeviceKind pointerDeviceKind,
   ) {
     if (_state == _ScaleState.ready) _state = _ScaleState.possible;
 
@@ -666,7 +666,7 @@ class _ScaleGestureRecognizer extends OneSequenceGestureRecognizer {
   }
 
   @override
-  void acceptGesture(int pointer) {
+  void acceptGesture(final int pointer) {
     if (_state == _ScaleState.possible) {
       _state = _ScaleState.started;
       _dispatchOnStartCallbackIfNeeded();
@@ -681,12 +681,12 @@ class _ScaleGestureRecognizer extends OneSequenceGestureRecognizer {
   }
 
   @override
-  void rejectGesture(int pointer) {
+  void rejectGesture(final int pointer) {
     stopTrackingPointer(pointer);
   }
 
   @override
-  void didStopTrackingLastPointer(int pointer) {
+  void didStopTrackingLastPointer(final int pointer) {
     switch (_state) {
       case _ScaleState.possible:
         resolve(GestureDisposition.rejected);
@@ -715,7 +715,7 @@ class _ScaleGestureRecognizer extends OneSequenceGestureRecognizer {
 
 enum _ScaleState { ready, possible, accepted, started }
 
-bool _isFlingGesture(Velocity velocity) {
+bool _isFlingGesture(final Velocity velocity) {
   final speedSquared = velocity.pixelsPerSecond.distanceSquared;
   return speedSquared > kMinFlingVelocity * kMinFlingVelocity;
 }
@@ -751,9 +751,9 @@ class _ScrollController extends ScrollController {
 
   @override
   ScrollPosition createScrollPosition(
-    ScrollPhysics physics,
-    ScrollContext context,
-    ScrollPosition? oldPosition,
+    final ScrollPhysics physics,
+    final ScrollContext context,
+    final ScrollPosition? oldPosition,
   ) {
     return _ScrollPositionWithSingleContext(
       physics: physics,
@@ -766,10 +766,10 @@ class _ScrollController extends ScrollController {
 
 class _ScrollPositionWithSingleContext extends ScrollPositionWithSingleContext {
   _ScrollPositionWithSingleContext({
-    required ScrollPhysics physics,
-    required ScrollContext context,
+    required final ScrollPhysics physics,
+    required final ScrollContext context,
     required this.getOffset,
-    ScrollPosition? oldPosition,
+    final ScrollPosition? oldPosition,
   }) : super(
           physics: physics,
           context: context,
@@ -788,16 +788,16 @@ class _ScrollPositionWithSingleContext extends ScrollPositionWithSingleContext {
   }
 
   @override
-  void goBallistic(double velocity) {
+  void goBallistic(final double velocity) {
     assert(velocity == 0);
     return;
   }
 
   @override
   Future<void> animateTo(
-    double to, {
-    required Duration duration,
-    required Curve curve,
+    final double to, {
+    required final Duration duration,
+    required final Curve curve,
   }) {
     throw UnsupportedError(
       "TimeZoom's `_ScrollPositionWithSingleContext` doesn't support `animateTo`.",
@@ -805,28 +805,28 @@ class _ScrollPositionWithSingleContext extends ScrollPositionWithSingleContext {
   }
 
   @override
-  void pointerScroll(double delta) {
+  void pointerScroll(final double delta) {
     throw UnsupportedError(
       "TimeZoom's `_ScrollPositionWithSingleContext` doesn't support `pointerScroll`.",
     );
   }
 
   @override
-  void jumpToWithoutSettling(double value) {
+  void jumpToWithoutSettling(final double value) {
     throw UnsupportedError(
       "TimeZoom's `_ScrollPositionWithSingleContext` doesn't support `jumpToWithoutSettling`.",
     );
   }
 
   @override
-  ScrollHoldController hold(VoidCallback holdCancelCallback) {
+  ScrollHoldController hold(final VoidCallback holdCancelCallback) {
     throw UnsupportedError(
       "TimeZoom's `_ScrollPositionWithSingleContext` doesn't support `hold`.",
     );
   }
 
   @override
-  Drag drag(DragStartDetails details, VoidCallback dragCancelCallback) {
+  Drag drag(final DragStartDetails details, final VoidCallback dragCancelCallback) {
     throw UnsupportedError(
       "TimeZoom's `_ScrollPositionWithSingleContext` doesn't support `drag`.",
     );

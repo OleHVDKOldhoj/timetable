@@ -15,7 +15,7 @@ import '../theme.dart';
 ///   descendant Timetable widgets.
 class DateDividers extends StatelessWidget {
   const DateDividers({
-    Key? key,
+    final Key? key,
     this.style,
     this.child,
   }) : super(key: key);
@@ -24,7 +24,7 @@ class DateDividers extends StatelessWidget {
   final Widget? child;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return CustomPaint(
       painter: _DateDividersPainter(
         controller: DefaultDateController.of(context)!,
@@ -43,9 +43,9 @@ class DateDividers extends StatelessWidget {
 @immutable
 class DateDividersStyle {
   factory DateDividersStyle(
-    BuildContext context, {
-    Color? color,
-    double? width,
+    final BuildContext context, {
+    final Color? color,
+    final double? width,
   }) {
     final dividerBorderSide = Divider.createBorderSide(context);
     return DateDividersStyle.raw(
@@ -62,7 +62,7 @@ class DateDividersStyle {
   final Color color;
   final double width;
 
-  DateDividersStyle copyWith({Color? color, double? width}) {
+  DateDividersStyle copyWith({final Color? color, final double? width}) {
     return DateDividersStyle.raw(
       color: color ?? this.color,
       width: width ?? this.width,
@@ -72,7 +72,7 @@ class DateDividersStyle {
   @override
   int get hashCode => hashValues(color, width);
   @override
-  bool operator ==(Object other) {
+  bool operator ==(final Object other) {
     return other is DateDividersStyle &&
         color == other.color &&
         width == other.width;
@@ -93,7 +93,7 @@ class _DateDividersPainter extends CustomPainter {
   final Paint _paint;
 
   @override
-  void paint(Canvas canvas, Size size) {
+  void paint(final Canvas canvas, final Size size) {
     canvas.clipRect(Offset.zero & size);
     final pageValue = controller.value;
     final initialOffset = 1 - pageValue.page % 1;
@@ -104,6 +104,6 @@ class _DateDividersPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_DateDividersPainter oldDelegate) =>
+  bool shouldRepaint(final _DateDividersPainter oldDelegate) =>
       style != oldDelegate.style;
 }

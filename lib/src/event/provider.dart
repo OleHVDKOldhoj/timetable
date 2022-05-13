@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart' hide Interval;
 
 import '../utils.dart';
@@ -20,25 +19,25 @@ typedef EventProvider<E extends Event> = List<E> Function(
   Interval visibleRange,
 );
 
-EventProvider<E> eventProviderFromFixedList<E extends Event>(List<E> events) {
-  return (visibleRange) =>
-      events.where((it) => it.interval.intersects(visibleRange)).toList();
+EventProvider<E> eventProviderFromFixedList<E extends Event>(final List<E> events) {
+  return (final visibleRange) =>
+      events.where((final it) => it.interval.intersects(visibleRange)).toList();
 }
 
 EventProvider<E> mergeEventProviders<E extends Event>(
-  List<EventProvider<E>> eventProviders,
+  final List<EventProvider<E>> eventProviders,
 ) {
-  return (visibleRange) =>
-      eventProviders.expand((it) => it(visibleRange)).toList();
+  return (final visibleRange) =>
+      eventProviders.expand((final it) => it(visibleRange)).toList();
 }
 
 extension EventProviderTimetable<E extends Event> on EventProvider<E> {
   EventProvider<E> get debugChecked {
-    return (visibleRange) {
+    return (final visibleRange) {
       final events = this(visibleRange);
       assert(() {
         final invalidEvents = events
-            .where((it) => !it.interval.intersects(visibleRange))
+            .where((final it) => !it.interval.intersects(visibleRange))
             .toList();
         if (invalidEvents.isNotEmpty) {
           throw FlutterError.fromParts([
@@ -77,18 +76,18 @@ extension EventProviderTimetable<E extends Event> on EventProvider<E> {
 
 class DefaultEventProvider<E extends Event> extends InheritedWidget {
   DefaultEventProvider({
-    required EventProvider<E> eventProvider,
-    required Widget child,
+    required final EventProvider<E> eventProvider,
+    required final Widget child,
   })  : eventProvider = eventProvider.debugChecked,
         super(child: child);
 
   final EventProvider<E> eventProvider;
 
   @override
-  bool updateShouldNotify(DefaultEventProvider oldWidget) =>
+  bool updateShouldNotify(final DefaultEventProvider oldWidget) =>
       eventProvider != oldWidget.eventProvider;
 
-  static EventProvider<E>? of<E extends Event>(BuildContext context) {
+  static EventProvider<E>? of<E extends Event>(final BuildContext context) {
     return context
         .dependOnInheritedWidgetOfExactType<DefaultEventProvider<E>>()
         ?.eventProvider;

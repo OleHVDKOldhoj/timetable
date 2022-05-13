@@ -5,18 +5,18 @@ import 'date_page_view.dart';
 import 'visible_date_range.dart';
 
 class DateScrollPhysics extends ScrollPhysics {
-  const DateScrollPhysics(this.visibleRangeListenable, {ScrollPhysics? parent})
+  const DateScrollPhysics(this.visibleRangeListenable, {final ScrollPhysics? parent})
       : super(parent: parent);
 
   final ValueListenable<VisibleDateRange> visibleRangeListenable;
   VisibleDateRange get visibleRange => visibleRangeListenable.value;
 
   @override
-  DateScrollPhysics applyTo(ScrollPhysics? ancestor) =>
+  DateScrollPhysics applyTo(final ScrollPhysics? ancestor) =>
       DateScrollPhysics(visibleRangeListenable, parent: buildParent(ancestor));
 
   @override
-  double applyBoundaryConditions(ScrollMetrics position, double value) {
+  double applyBoundaryConditions(final ScrollMetrics position, final double value) {
     if (position is! MultiDateScrollPosition) {
       throw ArgumentError(
         'DateScrollPhysics must be used with MultiDateScrollPosition.',
@@ -37,8 +37,8 @@ class DateScrollPhysics extends ScrollPhysics {
 
   @override
   Simulation? createBallisticSimulation(
-    ScrollMetrics position,
-    double velocity,
+    final ScrollMetrics position,
+    final double velocity,
   ) {
     if (position is! MultiDateScrollPosition) {
       throw ArgumentError(

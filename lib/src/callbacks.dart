@@ -48,14 +48,14 @@ class TimetableCallbacks {
   final DateTimeTapCallback? onDateTimeBackgroundTap;
 
   TimetableCallbacks copyWith({
-    WeekTapCallback? onWeekTap,
-    bool clearOnWeekTap = false,
-    DateTapCallback? onDateTap,
-    bool clearOnDateTap = false,
-    DateTapCallback? onDateBackgroundTap,
-    bool clearOnDateBackgroundTap = false,
-    DateTimeTapCallback? onDateTimeBackgroundTap,
-    bool clearOnDateTimeBackgroundTap = false,
+    final WeekTapCallback? onWeekTap,
+    final bool clearOnWeekTap = false,
+    final DateTapCallback? onDateTap,
+    final bool clearOnDateTap = false,
+    final DateTapCallback? onDateBackgroundTap,
+    final bool clearOnDateBackgroundTap = false,
+    final DateTimeTapCallback? onDateTimeBackgroundTap,
+    final bool clearOnDateTimeBackgroundTap = false,
   }) {
     assert(!(clearOnWeekTap && onWeekTap != null));
     assert(!(clearOnDateTap && onDateTap != null));
@@ -85,7 +85,7 @@ class TimetableCallbacks {
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(final Object other) {
     return other is TimetableCallbacks &&
         onWeekTap == other.onWeekTap &&
         onDateTap == other.onDateTap &&
@@ -100,16 +100,16 @@ class TimetableCallbacks {
 class DefaultTimetableCallbacks extends InheritedWidget {
   const DefaultTimetableCallbacks({
     required this.callbacks,
-    required Widget child,
+    required final Widget child,
   }) : super(child: child);
 
   final TimetableCallbacks callbacks;
 
   @override
-  bool updateShouldNotify(DefaultTimetableCallbacks oldWidget) =>
+  bool updateShouldNotify(final DefaultTimetableCallbacks oldWidget) =>
       callbacks != oldWidget.callbacks;
 
-  static TimetableCallbacks? of(BuildContext context) {
+  static TimetableCallbacks? of(final BuildContext context) {
     return context
         .dependOnInheritedWidgetOfExactType<DefaultTimetableCallbacks>()
         ?.callbacks;

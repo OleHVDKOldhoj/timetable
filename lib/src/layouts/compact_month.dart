@@ -12,8 +12,8 @@ import '../utils.dart';
 /// [DateController].
 class CompactMonthTimetable extends StatefulWidget {
   CompactMonthTimetable({
-    MonthWidgetBuilder? monthBuilder,
-  }) : monthBuilder = monthBuilder ?? ((context, month) => MonthWidget(month));
+    final MonthWidgetBuilder? monthBuilder,
+  }) : monthBuilder = monthBuilder ?? ((final context, final month) => MonthWidget(month));
 
   final MonthWidgetBuilder monthBuilder;
 
@@ -74,7 +74,7 @@ class _CompactMonthTimetableState extends State<CompactMonthTimetable>
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return MonthPageView(
       monthPageController: _monthPageController,
       shrinkWrapInCrossAxis: true,

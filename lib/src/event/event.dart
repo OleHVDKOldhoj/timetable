@@ -27,7 +27,7 @@ abstract class Event with Diagnosticable {
   bool get isAllDay => end.difference(start).inDays >= 1;
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(final dynamic other) {
     return other is Event &&
         runtimeType == other.runtimeType &&
         start == other.start &&
@@ -38,7 +38,7 @@ abstract class Event with Diagnosticable {
   int get hashCode => hashValues(runtimeType, start, end);
 
   @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  void debugFillProperties(final DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties.add(DiagnosticsProperty('start', start));
     properties.add(DiagnosticsProperty('end', end));
@@ -55,7 +55,7 @@ extension EventExtension on Event {
 
 extension TimetableEventIterable<E extends Event> on Iterable<E> {
   List<E> sortedByStartLength() {
-    return sorted((a, b) {
+    return sorted((final a, final b) {
       final result = a.start.compareTo(b.start);
       if (result != 0) return result;
       return a.end.compareTo(b.end);

@@ -1,7 +1,4 @@
-import 'package:flutter/animation.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 
 import '../config.dart';
 import '../layouts/multi_date.dart';
@@ -17,9 +14,9 @@ import 'time_range.dart';
 class TimeController extends ValueNotifier<TimeRange> {
   TimeController({
     this.minDuration = const Duration(minutes: 1),
-    Duration? maxDuration,
-    TimeRange? initialRange,
-    TimeRange? maxRange,
+    final Duration? maxDuration,
+    final TimeRange? initialRange,
+    final TimeRange? maxRange,
   })  : assert(!minDuration.isNegative),
         assert(minDuration <= 1.days),
         assert(maxDuration == null || maxDuration <= 1.days),
@@ -43,8 +40,8 @@ class TimeController extends ValueNotifier<TimeRange> {
   }
 
   static TimeRange _getInitialRange(
-    Duration? maxDuration,
-    TimeRange? maxRange,
+    final Duration? maxDuration,
+    final TimeRange? maxRange,
   ) {
     if (maxDuration != null &&
         maxRange != null &&
@@ -58,7 +55,7 @@ class TimeController extends ValueNotifier<TimeRange> {
     return maxRange ?? TimeRange.fullDay;
   }
 
-  bool _isValidRange(TimeRange range) {
+  bool _isValidRange(final TimeRange range) {
     return minDuration <= range.duration &&
         range.duration <= maxDuration &&
         maxRange.contains(range);
@@ -74,7 +71,7 @@ class TimeController extends ValueNotifier<TimeRange> {
   final TimeRange maxRange;
 
   @override
-  set value(TimeRange value) {
+  set value(final TimeRange value) {
     assert(_isValidRange(value));
     super.value = value;
   }
@@ -83,9 +80,9 @@ class TimeController extends ValueNotifier<TimeRange> {
   AnimationController? _animationController;
 
   Future<void> animateToShowFullDay({
-    Curve curve = Curves.easeInOut,
-    Duration duration = const Duration(milliseconds: 200),
-    required TickerProvider vsync,
+    final Curve curve = Curves.easeInOut,
+    final Duration duration = const Duration(milliseconds: 200),
+    required final TickerProvider vsync,
   }) {
     assert(maxDuration == 1.days);
 
@@ -98,10 +95,10 @@ class TimeController extends ValueNotifier<TimeRange> {
   }
 
   Future<void> animateTo(
-    TimeRange newValue, {
-    Curve curve = Curves.easeInOut,
-    Duration duration = const Duration(milliseconds: 200),
-    required TickerProvider vsync,
+    final TimeRange newValue, {
+    final Curve curve = Curves.easeInOut,
+    final Duration duration = const Duration(milliseconds: 200),
+    required final TickerProvider vsync,
   }) async {
     assert(_isValidRange(newValue));
 
@@ -131,16 +128,16 @@ class TimeController extends ValueNotifier<TimeRange> {
 class DefaultTimeController extends InheritedWidget {
   const DefaultTimeController({
     required this.controller,
-    required Widget child,
+    required final Widget child,
   }) : super(child: child);
 
   final TimeController controller;
 
   @override
-  bool updateShouldNotify(DefaultTimeController oldWidget) =>
+  bool updateShouldNotify(final DefaultTimeController oldWidget) =>
       controller != oldWidget.controller;
 
-  static TimeController? of(BuildContext context) {
+  static TimeController? of(final BuildContext context) {
     return context
         .dependOnInheritedWidgetOfExactType<DefaultTimeController>()
         ?.controller;

@@ -28,45 +28,45 @@ typedef TimeBasedStyleProvider<T> = T Function(Duration time);
 @immutable
 class TimetableThemeData {
   factory TimetableThemeData(
-    BuildContext context, {
-    int? startOfWeek,
-    DateDividersStyle? dateDividersStyle,
-    DateBasedStyleProvider<DateEventsStyle>? dateEventsStyleProvider,
-    DateBasedStyleProvider<DateHeaderStyle>? dateHeaderStyleProvider,
-    DateBasedStyleProvider<DateIndicatorStyle>? dateIndicatorStyleProvider,
-    HourDividersStyle? hourDividersStyle,
-    MonthBasedStyleProvider<MonthIndicatorStyle>? monthIndicatorStyleProvider,
-    MonthBasedStyleProvider<MonthWidgetStyle>? monthWidgetStyleProvider,
-    MultiDateEventHeaderStyle? multiDateEventHeaderStyle,
-    NowIndicatorStyle? nowIndicatorStyle,
-    TimeBasedStyleProvider<TimeIndicatorStyle>? timeIndicatorStyleProvider,
-    DateBasedStyleProvider<WeekdayIndicatorStyle>?
+    final BuildContext context, {
+    final int? startOfWeek,
+    final DateDividersStyle? dateDividersStyle,
+    final DateBasedStyleProvider<DateEventsStyle>? dateEventsStyleProvider,
+    final DateBasedStyleProvider<DateHeaderStyle>? dateHeaderStyleProvider,
+    final DateBasedStyleProvider<DateIndicatorStyle>? dateIndicatorStyleProvider,
+    final HourDividersStyle? hourDividersStyle,
+    final MonthBasedStyleProvider<MonthIndicatorStyle>? monthIndicatorStyleProvider,
+    final MonthBasedStyleProvider<MonthWidgetStyle>? monthWidgetStyleProvider,
+    final MultiDateEventHeaderStyle? multiDateEventHeaderStyle,
+    final NowIndicatorStyle? nowIndicatorStyle,
+    final TimeBasedStyleProvider<TimeIndicatorStyle>? timeIndicatorStyleProvider,
+    final DateBasedStyleProvider<WeekdayIndicatorStyle>?
         weekdayIndicatorStyleProvider,
-    WeekBasedStyleProvider<WeekIndicatorStyle>? weekIndicatorStyleProvider,
+    final WeekBasedStyleProvider<WeekIndicatorStyle>? weekIndicatorStyleProvider,
   }) {
     return TimetableThemeData.raw(
       startOfWeek: startOfWeek ?? DateTime.monday,
       dateDividersStyle: dateDividersStyle ?? DateDividersStyle(context),
       dateEventsStyleProvider:
-          dateEventsStyleProvider ?? (date) => DateEventsStyle(context, date),
+          dateEventsStyleProvider ?? (final date) => DateEventsStyle(context, date),
       dateHeaderStyleProvider:
-          dateHeaderStyleProvider ?? (date) => DateHeaderStyle(context, date),
+          dateHeaderStyleProvider ?? (final date) => DateHeaderStyle(context, date),
       dateIndicatorStyleProvider: dateIndicatorStyleProvider ??
-          (date) => DateIndicatorStyle(context, date),
+          (final date) => DateIndicatorStyle(context, date),
       hourDividersStyle: hourDividersStyle ?? HourDividersStyle(context),
       monthIndicatorStyleProvider: monthIndicatorStyleProvider ??
-          (month) => MonthIndicatorStyle(context, month),
+          (final month) => MonthIndicatorStyle(context, month),
       monthWidgetStyleProvider: monthWidgetStyleProvider ??
-          (month) => MonthWidgetStyle(context, month, startOfWeek: startOfWeek),
+          (final month) => MonthWidgetStyle(context, month, startOfWeek: startOfWeek),
       multiDateEventHeaderStyle:
           multiDateEventHeaderStyle ?? MultiDateEventHeaderStyle(context),
       nowIndicatorStyle: nowIndicatorStyle ?? NowIndicatorStyle(context),
       timeIndicatorStyleProvider: timeIndicatorStyleProvider ??
-          (time) => TimeIndicatorStyle(context, time),
+          (final time) => TimeIndicatorStyle(context, time),
       weekdayIndicatorStyleProvider: weekdayIndicatorStyleProvider ??
-          (date) => WeekdayIndicatorStyle(context, date),
+          (final date) => WeekdayIndicatorStyle(context, date),
       weekIndicatorStyleProvider: weekIndicatorStyleProvider ??
-          (week) => WeekIndicatorStyle(context, week),
+          (final week) => WeekIndicatorStyle(context, week),
     );
   }
 
@@ -103,20 +103,20 @@ class TimetableThemeData {
   final WeekBasedStyleProvider<WeekIndicatorStyle> weekIndicatorStyleProvider;
 
   TimetableThemeData copyWith({
-    int? startOfWeek,
-    DateDividersStyle? dateDividersStyle,
-    DateBasedStyleProvider<DateEventsStyle>? dateEventsStyleProvider,
-    DateBasedStyleProvider<DateHeaderStyle>? dateHeaderStyleProvider,
-    DateBasedStyleProvider<DateIndicatorStyle>? dateIndicatorStyleProvider,
-    HourDividersStyle? hourDividersStyle,
-    MonthBasedStyleProvider<MonthIndicatorStyle>? monthIndicatorStyleProvider,
-    MonthBasedStyleProvider<MonthWidgetStyle>? monthWidgetStyleProvider,
-    MultiDateEventHeaderStyle? multiDateEventHeaderStyle,
-    NowIndicatorStyle? nowIndicatorStyle,
-    TimeBasedStyleProvider<TimeIndicatorStyle>? timeIndicatorStyleProvider,
-    DateBasedStyleProvider<WeekdayIndicatorStyle>?
+    final int? startOfWeek,
+    final DateDividersStyle? dateDividersStyle,
+    final DateBasedStyleProvider<DateEventsStyle>? dateEventsStyleProvider,
+    final DateBasedStyleProvider<DateHeaderStyle>? dateHeaderStyleProvider,
+    final DateBasedStyleProvider<DateIndicatorStyle>? dateIndicatorStyleProvider,
+    final HourDividersStyle? hourDividersStyle,
+    final MonthBasedStyleProvider<MonthIndicatorStyle>? monthIndicatorStyleProvider,
+    final MonthBasedStyleProvider<MonthWidgetStyle>? monthWidgetStyleProvider,
+    final MultiDateEventHeaderStyle? multiDateEventHeaderStyle,
+    final NowIndicatorStyle? nowIndicatorStyle,
+    final TimeBasedStyleProvider<TimeIndicatorStyle>? timeIndicatorStyleProvider,
+    final DateBasedStyleProvider<WeekdayIndicatorStyle>?
         weekdayIndicatorStyleProvider,
-    WeekBasedStyleProvider<WeekIndicatorStyle>? weekIndicatorStyleProvider,
+    final WeekBasedStyleProvider<WeekIndicatorStyle>? weekIndicatorStyleProvider,
   }) {
     return TimetableThemeData.raw(
       startOfWeek: startOfWeek ?? this.startOfWeek,
@@ -161,7 +161,7 @@ class TimetableThemeData {
         weekIndicatorStyleProvider,
       );
   @override
-  bool operator ==(Object other) {
+  bool operator ==(final Object other) {
     return other is TimetableThemeData &&
         startOfWeek == other.startOfWeek &&
         dateDividersStyle == other.dateDividersStyle &&
@@ -187,16 +187,16 @@ class TimetableThemeData {
 class TimetableTheme extends InheritedWidget {
   const TimetableTheme({
     required this.data,
-    required Widget child,
+    required final Widget child,
   }) : super(child: child);
 
   final TimetableThemeData data;
 
   @override
-  bool updateShouldNotify(TimetableTheme oldWidget) => data != oldWidget.data;
+  bool updateShouldNotify(final TimetableTheme oldWidget) => data != oldWidget.data;
 
-  static TimetableThemeData? of(BuildContext context) =>
+  static TimetableThemeData? of(final BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<TimetableTheme>()?.data;
-  static TimetableThemeData orDefaultOf(BuildContext context) =>
+  static TimetableThemeData orDefaultOf(final BuildContext context) =>
       of(context) ?? TimetableThemeData(context);
 }

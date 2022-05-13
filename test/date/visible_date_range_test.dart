@@ -1,6 +1,4 @@
 import 'package:glados/glados.dart';
-import 'package:supercharged/supercharged.dart';
-import 'package:test/test.dart';
 import 'package:timetable/src/utils.dart';
 import 'package:timetable/timetable.dart';
 import 'package:tuple_glados/tuple_glados.dart';
@@ -8,7 +6,7 @@ import 'package:tuple_glados/tuple_glados.dart';
 void main() {
   group('VisibleDateRange.days', () {
     Glados(any.tuple2(any.positiveInt, any.int)).test('getTargetPageForFocus',
-        (it) {
+        (final it) {
       final rangeSize = it.item1;
       final page = it.item2.toDouble();
       expect(
@@ -18,7 +16,7 @@ void main() {
     });
 
     Glados(any.tuple2(any.positiveInt, any.double))
-        .test('getTargetPageForCurrent', (it) {
+        .test('getTargetPageForCurrent', (final it) {
       final rangeSize = it.item1;
       final page = it.item2;
       expect(
@@ -28,7 +26,7 @@ void main() {
     });
 
     Glados(any.tuple2(any.positiveInt, any.positiveInt))
-        .test('scrolling with limits without swipe range', (it) {
+        .test('scrolling with limits without swipe range', (final it) {
       final visibleDayCount = it.item1;
       final maxDateOffset = it.item2;
 
@@ -50,7 +48,7 @@ void main() {
 
   group('VisibleDateRange.week', () {
     Glados(any.tuple2(any.dayOfWeek, any.int)).test('getTargetPageForFocus',
-        (it) {
+        (final it) {
       final startOfWeek = it.item1;
       final page = it.item2;
 
@@ -65,7 +63,7 @@ void main() {
     });
 
     Glados(any.tuple2(any.dayOfWeek, any.double))
-        .test('getTargetPageForCurrent', (it) {
+        .test('getTargetPageForCurrent', (final it) {
       final startOfWeek = it.item1;
       final page = it.item2;
 

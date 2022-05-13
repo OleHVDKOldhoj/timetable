@@ -73,7 +73,7 @@ class ExampleApp extends StatelessWidget {
         headline6:
             theme.textTheme.headline6!.copyWith(fontWeight: FontWeight.normal),
       ),
-      appBarTheme: theme.appBarTheme.copyWith(backwardsCompatibility: false),
+      appBarTheme: theme.appBarTheme.copyWith(),
     );
 
     // We want to extend Timetable behind the navigation bar.

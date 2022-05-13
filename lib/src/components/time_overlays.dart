@@ -20,8 +20,8 @@ class TimeOverlays extends StatelessWidget {
   final List<TimeOverlay> overlays;
 
   @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
+  Widget build(final BuildContext context) {
+    return LayoutBuilder(builder: (final context, final constraints) {
       final height = constraints.maxHeight;
 
       return Stack(children: [

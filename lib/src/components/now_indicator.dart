@@ -23,7 +23,7 @@ import '../utils.dart';
 ///   descendant Timetable widgets.
 class NowIndicator extends StatelessWidget {
   const NowIndicator({
-    Key? key,
+    final Key? key,
     this.style,
     this.child,
   }) : super(key: key);
@@ -32,7 +32,7 @@ class NowIndicator extends StatelessWidget {
   final Widget? child;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return CustomPaint(
       foregroundPainter: _NowIndicatorPainter(
         controller: DefaultDateController.of(context)!,
@@ -52,10 +52,10 @@ class NowIndicator extends StatelessWidget {
 @immutable
 class NowIndicatorStyle {
   factory NowIndicatorStyle(
-    BuildContext context, {
-    NowIndicatorShape? shape,
-    Color? lineColor,
-    double? lineWidth,
+    final BuildContext context, {
+    final NowIndicatorShape? shape,
+    final Color? lineColor,
+    final double? lineWidth,
   }) {
     final defaultColor = context.theme.colorScheme.onBackground;
     return NowIndicatorStyle.raw(
@@ -76,9 +76,9 @@ class NowIndicatorStyle {
   final double lineWidth;
 
   NowIndicatorStyle copyWith({
-    NowIndicatorShape? shape,
-    Color? lineColor,
-    double? lineWidth,
+    final NowIndicatorShape? shape,
+    final Color? lineColor,
+    final double? lineWidth,
   }) {
     return NowIndicatorStyle.raw(
       shape: shape ?? this.shape,
@@ -90,7 +90,7 @@ class NowIndicatorStyle {
   @override
   int get hashCode => hashValues(shape, lineColor, lineWidth);
   @override
-  bool operator ==(Object other) {
+  bool operator ==(final Object other) {
     return other is NowIndicatorStyle &&
         shape == other.shape &&
         lineColor == other.lineColor &&
@@ -113,18 +113,18 @@ abstract class NowIndicatorShape {
   const NowIndicatorShape();
 
   void paint(
-    Canvas canvas,
-    Size size,
-    double dateStartOffset,
-    double dateEndOffset,
-    double timeOffset,
+    final Canvas canvas,
+    final Size size,
+    final double dateStartOffset,
+    final double dateEndOffset,
+    final double timeOffset,
   );
 
   double interpolateSizeBasedOnVisibility(
-    double value,
-    Size size,
-    double dateStartOffset,
-    double dateEndOffset,
+    final double value,
+    final Size size,
+    final double dateStartOffset,
+    final double dateEndOffset,
   ) {
     final dateWidth = dateEndOffset - dateStartOffset;
     if (dateEndOffset < dateWidth) {
@@ -141,7 +141,7 @@ abstract class NowIndicatorShape {
   @override
   int get hashCode;
   @override
-  bool operator ==(Object other);
+  bool operator ==(final Object other);
 }
 
 /// A [NowIndicatorShape] that draws nothing.
@@ -155,11 +155,11 @@ class EmptyNowIndicatorShape extends NowIndicatorShape {
 
   @override
   void paint(
-    Canvas canvas,
-    Size size,
-    double dateStartOffset,
-    double dateEndOffset,
-    double timeOffset,
+    final Canvas canvas,
+    final Size size,
+    final double dateStartOffset,
+    final double dateEndOffset,
+    final double timeOffset,
   ) {}
 
   @override
@@ -168,7 +168,7 @@ class EmptyNowIndicatorShape extends NowIndicatorShape {
   @override
   int get hashCode => 0;
   @override
-  bool operator ==(Object other) {
+  bool operator ==(final Object other) {
     return other is EmptyNowIndicatorShape;
   }
 }
@@ -189,11 +189,11 @@ class CircleNowIndicatorShape extends NowIndicatorShape {
 
   @override
   void paint(
-    Canvas canvas,
-    Size size,
-    double dateStartOffset,
-    double dateEndOffset,
-    double timeOffset,
+    final Canvas canvas,
+    final Size size,
+    final double dateStartOffset,
+    final double dateEndOffset,
+    final double timeOffset,
   ) {
     canvas.drawCircle(
       Offset(dateStartOffset.coerceAtLeast(0), timeOffset),
@@ -208,7 +208,7 @@ class CircleNowIndicatorShape extends NowIndicatorShape {
   }
 
   @override
-  CircleNowIndicatorShape copyWith({Color? color, double? radius}) {
+  CircleNowIndicatorShape copyWith({final Color? color, final double? radius}) {
     return CircleNowIndicatorShape(
       color: color ?? this.color,
       radius: radius ?? this.radius,
@@ -218,7 +218,7 @@ class CircleNowIndicatorShape extends NowIndicatorShape {
   @override
   int get hashCode => hashValues(color, radius);
   @override
-  bool operator ==(Object other) {
+  bool operator ==(final Object other) {
     return other is CircleNowIndicatorShape &&
         color == other.color &&
         radius == other.radius;
@@ -241,11 +241,11 @@ class TriangleNowIndicatorShape extends NowIndicatorShape {
 
   @override
   void paint(
-    Canvas canvas,
-    Size size,
-    double dateStartOffset,
-    double dateEndOffset,
-    double timeOffset,
+    final Canvas canvas,
+    final Size size,
+    final double dateStartOffset,
+    final double dateEndOffset,
+    final double timeOffset,
   ) {
     final actualSize = interpolateSizeBasedOnVisibility(
       this.size,
@@ -265,7 +265,7 @@ class TriangleNowIndicatorShape extends NowIndicatorShape {
   }
 
   @override
-  TriangleNowIndicatorShape copyWith({Color? color, double? size}) {
+  TriangleNowIndicatorShape copyWith({final Color? color, final double? size}) {
     return TriangleNowIndicatorShape(
       color: color ?? this.color,
       size: size ?? this.size,
@@ -275,7 +275,7 @@ class TriangleNowIndicatorShape extends NowIndicatorShape {
   @override
   int get hashCode => hashValues(color, size);
   @override
-  bool operator ==(Object other) {
+  bool operator ==(final Object other) {
     return other is TriangleNowIndicatorShape &&
         color == other.color &&
         size == other.size;
@@ -286,9 +286,9 @@ class TriangleNowIndicatorShape extends NowIndicatorShape {
 
 class _NowIndicatorPainter extends CustomPainter {
   factory _NowIndicatorPainter({
-    required DateController controller,
-    required NowIndicatorStyle style,
-    required double devicePixelRatio,
+    required final DateController controller,
+    required final NowIndicatorStyle style,
+    required final double devicePixelRatio,
   }) =>
       _NowIndicatorPainter._(
         controller: controller,
@@ -300,7 +300,7 @@ class _NowIndicatorPainter extends CustomPainter {
     required this.controller,
     required this.style,
     required this.devicePixelRatio,
-    required ValueNotifier<DateTime> repaintNotifier,
+    required final ValueNotifier<DateTime> repaintNotifier,
   })  : _paint = Paint()
           ..color = style.lineColor
           ..strokeWidth = style.lineWidth,
@@ -313,7 +313,7 @@ class _NowIndicatorPainter extends CustomPainter {
   final double devicePixelRatio;
 
   @override
-  void paint(Canvas canvas, Size size) {
+  void paint(final Canvas canvas, final Size size) {
     _repaint?.cancel();
     _repaint = null;
 
@@ -340,7 +340,7 @@ class _NowIndicatorPainter extends CustomPainter {
     final maxDistance = 0.5 / devicePixelRatio;
     final delay = 1.days * (maxDistance / size.height);
     _repaint = CancelableOperation.fromFuture(
-      Future<void>.delayed(delay).then((_) {
+      Future<void>.delayed(delay).then((final _) {
         // [ChangeNotifier.notifyListeners] is protected, so we use a
         // [ValueNotifier] and always set a different time.
         _repaintNotifier.value = DateTimeTimetable.now();
@@ -353,13 +353,13 @@ class _NowIndicatorPainter extends CustomPainter {
   CancelableOperation<void>? _repaint;
 
   @override
-  void addListener(VoidCallback listener) {
+  void addListener(final VoidCallback listener) {
     super.addListener(listener);
     _activeListenerCount++;
   }
 
   @override
-  void removeListener(VoidCallback listener) {
+  void removeListener(final VoidCallback listener) {
     _activeListenerCount--;
     if (_activeListenerCount == 0) {
       _repaint?.cancel();
@@ -369,7 +369,7 @@ class _NowIndicatorPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_NowIndicatorPainter oldDelegate) =>
+  bool shouldRepaint(final _NowIndicatorPainter oldDelegate) =>
       style != oldDelegate.style ||
       devicePixelRatio != oldDelegate.devicePixelRatio;
 }

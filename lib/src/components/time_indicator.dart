@@ -21,25 +21,25 @@ import 'time_indicators.dart';
 ///   descendant Timetable widgets.
 class TimeIndicator extends StatelessWidget {
   TimeIndicator({
-    Key? key,
+    final Key? key,
     required this.time,
     this.style,
   })  : assert(time.isValidTimetableTimeOfDay),
         super(key: key);
 
-  static String formatHour(Duration time) => _format(DateFormat.j(), time);
-  static String formatHourMinute(Duration time) =>
+  static String formatHour(final Duration time) => _format(DateFormat.j(), time);
+  static String formatHourMinute(final Duration time) =>
       _format(DateFormat.jm(), time);
-  static String formatHourMinuteSecond(Duration time) =>
+  static String formatHourMinuteSecond(final Duration time) =>
       _format(DateFormat.jms(), time);
 
-  static String formatHour24(Duration time) => _format(DateFormat.H(), time);
-  static String formatHour24Minute(Duration time) =>
+  static String formatHour24(final Duration time) => _format(DateFormat.H(), time);
+  static String formatHour24Minute(final Duration time) =>
       _format(DateFormat.Hm(), time);
-  static String formatHour24MinuteSecond(Duration time) =>
+  static String formatHour24MinuteSecond(final Duration time) =>
       _format(DateFormat.Hms(), time);
 
-  static String _format(DateFormat format, Duration time) {
+  static String _format(final DateFormat format, final Duration time) {
     assert(time.isValidTimetableTimeOfDay);
     return format.format(DateTime(0) + time);
   }
@@ -48,7 +48,7 @@ class TimeIndicator extends StatelessWidget {
   final TimeIndicatorStyle? style;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     final style = this.style ??
         TimetableTheme.orDefaultOf(context).timeIndicatorStyleProvider(time);
 
@@ -64,11 +64,11 @@ class TimeIndicator extends StatelessWidget {
 @immutable
 class TimeIndicatorStyle {
   factory TimeIndicatorStyle(
-    BuildContext context,
-    Duration time, {
-    TextStyle? textStyle,
-    String? label,
-    bool alwaysUse24HourFormat = false,
+    final BuildContext context,
+    final Duration time, {
+    final TextStyle? textStyle,
+    final String? label,
+    final bool alwaysUse24HourFormat = false,
   }) {
     assert(time.isValidTimetableTimeOfDay);
 
@@ -81,7 +81,7 @@ class TimeIndicatorStyle {
             color: theme.colorScheme.background.disabledOnColor,
             fontFeatures: [
               ...?caption.fontFeatures
-                  ?.where((it) => it.value != proportionalFiguresFeature),
+                  ?.where((final it) => it.value != proportionalFiguresFeature),
               FontFeature.tabularFigures(),
             ],
           ),
@@ -103,7 +103,7 @@ class TimeIndicatorStyle {
   final TextStyle textStyle;
   final String label;
 
-  TimeIndicatorStyle copyWith({TextStyle? textStyle, String? label}) {
+  TimeIndicatorStyle copyWith({final TextStyle? textStyle, final String? label}) {
     return TimeIndicatorStyle.raw(
       textStyle: textStyle ?? this.textStyle,
       label: label ?? this.label,
@@ -113,7 +113,7 @@ class TimeIndicatorStyle {
   @override
   int get hashCode => hashValues(textStyle, label);
   @override
-  bool operator ==(Object other) {
+  bool operator ==(final Object other) {
     return other is TimeIndicatorStyle &&
         textStyle == other.textStyle &&
         label == other.label;

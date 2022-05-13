@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
-import 'package:meta/meta.dart';
 
 import '../utils.dart';
 import 'controller.dart';
@@ -14,13 +13,13 @@ class TimeRange {
         assert(endTime.isValidTimetableTimeOfDay),
         assert(startTime <= endTime);
   factory TimeRange.fromStartAndDuration(
-          Duration startTime, Duration duration) =>
+          final Duration startTime, final Duration duration) =>
       TimeRange(startTime, startTime + duration);
 
   factory TimeRange.centeredAround(
-    Duration center,
-    Duration duration, {
-    bool canShiftIfDoesntFit = true,
+    final Duration center,
+    final Duration duration, {
+    final bool canShiftIfDoesntFit = true,
   }) {
     assert(duration <= 1.days);
 
@@ -43,11 +42,11 @@ class TimeRange {
   final Duration endTime;
   Duration get duration => endTime - startTime;
 
-  bool contains(TimeRange other) =>
+  bool contains(final TimeRange other) =>
       startTime <= other.startTime && other.endTime <= endTime;
 
   // ignore: prefer_constructors_over_static_methods
-  static TimeRange lerp(TimeRange a, TimeRange b, double t) {
+  static TimeRange lerp(final TimeRange a, final TimeRange b, final double t) {
     return TimeRange(
       lerpDuration(a.startTime, b.startTime, t),
       lerpDuration(a.endTime, b.endTime, t),
@@ -57,7 +56,7 @@ class TimeRange {
   @override
   int get hashCode => hashValues(startTime, endTime);
   @override
-  bool operator ==(Object other) {
+  bool operator ==(final Object other) {
     return other is TimeRange &&
         startTime == other.startTime &&
         endTime == other.endTime;

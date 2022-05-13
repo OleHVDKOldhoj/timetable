@@ -18,18 +18,18 @@ import '../utils.dart';
 class MonthIndicator extends StatelessWidget {
   MonthIndicator(
     this.month, {
-    Key? key,
+    final Key? key,
     this.style,
   })  : assert(month.isValidTimetableMonth),
         super(key: key);
-  static Widget forController(DateController? controller, {Key? key}) =>
+  static Widget forController(final DateController? controller, {final Key? key}) =>
       _MonthIndicatorForController(controller, key: key);
 
   final DateTime month;
   final MonthIndicatorStyle? style;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     final style = this.style ??
         TimetableTheme.orDefaultOf(context).monthIndicatorStyleProvider(month);
 
@@ -45,10 +45,10 @@ class MonthIndicator extends StatelessWidget {
 @immutable
 class MonthIndicatorStyle {
   factory MonthIndicatorStyle(
-    BuildContext context,
-    DateTime month, {
-    TextStyle? textStyle,
-    String? label,
+    final BuildContext context,
+    final DateTime month, {
+    final TextStyle? textStyle,
+    final String? label,
   }) {
     assert(month.isValidTimetableMonth);
 
@@ -71,7 +71,7 @@ class MonthIndicatorStyle {
   final TextStyle textStyle;
   final String label;
 
-  MonthIndicatorStyle copyWith({TextStyle? textStyle, String? label}) {
+  MonthIndicatorStyle copyWith({final TextStyle? textStyle, final String? label}) {
     return MonthIndicatorStyle.raw(
       textStyle: textStyle ?? this.textStyle,
       label: label ?? this.label,
@@ -81,7 +81,7 @@ class MonthIndicatorStyle {
   @override
   int get hashCode => hashValues(textStyle, label);
   @override
-  bool operator ==(Object other) {
+  bool operator ==(final Object other) {
     return other is MonthIndicatorStyle &&
         textStyle == other.textStyle &&
         label == other.label;
@@ -91,7 +91,7 @@ class MonthIndicatorStyle {
 class _MonthIndicatorForController extends StatelessWidget {
   const _MonthIndicatorForController(
     this.controller, {
-    Key? key,
+    final Key? key,
     this.style,
   }) : super(key: key);
 
@@ -99,11 +99,11 @@ class _MonthIndicatorForController extends StatelessWidget {
   final MonthIndicatorStyle? style;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     final controller = this.controller ?? DefaultDateController.of(context)!;
     return ValueListenableBuilder<DateTime>(
-      valueListenable: controller.date.map((it) => it.firstDayOfMonth),
-      builder: (context, month, _) => MonthIndicator(month, style: style),
+      valueListenable: controller.date.map((final it) => it.firstDayOfMonth),
+      builder: (final context, final month, final _) => MonthIndicator(month, style: style),
     );
   }
 }

@@ -40,10 +40,10 @@ typedef MultiDateTimetableContentBuilder = Widget Function(
 ///   Sunday without dates.
 class MultiDateTimetable<E extends Event> extends StatefulWidget {
   MultiDateTimetable({
-    Key? key,
-    MultiDateTimetableHeaderBuilder? headerBuilder,
-    MultiDateTimetableContentBuilder? contentBuilder,
-    Widget? contentLeading,
+    final Key? key,
+    final MultiDateTimetableHeaderBuilder? headerBuilder,
+    final MultiDateTimetableContentBuilder? contentBuilder,
+    final Widget? contentLeading,
   })  : headerBuilder = headerBuilder ?? _defaultHeaderBuilder<E>(),
         assert(
           contentBuilder == null || contentLeading == null,
@@ -56,7 +56,7 @@ class MultiDateTimetable<E extends Event> extends StatefulWidget {
   final MultiDateTimetableHeaderBuilder headerBuilder;
   static MultiDateTimetableHeaderBuilder
       _defaultHeaderBuilder<E extends Event>() {
-    return (context, leadingWidth) => MultiDateTimetableHeader<E>(
+    return (final context, final leadingWidth) => MultiDateTimetableHeader<E>(
           leading: SizedBox(
             width: leadingWidth,
             child: Center(child: WeekIndicator.forController(null)),
@@ -66,10 +66,10 @@ class MultiDateTimetable<E extends Event> extends StatefulWidget {
 
   final MultiDateTimetableContentBuilder contentBuilder;
   static MultiDateTimetableContentBuilder
-      _defaultContentBuilder<E extends Event>(Widget? contentLeading) {
-    return (context, onLeadingWidthChanged) => MultiDateTimetableContent<E>(
+      _defaultContentBuilder<E extends Event>(final Widget? contentLeading) {
+    return (final context, final onLeadingWidthChanged) => MultiDateTimetableContent<E>(
           leading: SizeReportingWidget(
-            onSizeChanged: (size) => onLeadingWidthChanged(size.width),
+            onSizeChanged: (final size) => onLeadingWidthChanged(size.width),
             child: contentLeading ?? _defaultContentLeading,
           ),
         );
@@ -84,25 +84,25 @@ class _MultiDateTimetableState<E extends Event>
   double? _leadingWidth;
 
   @override
-  Widget build(BuildContext context) {
-    final eventProvider = DefaultEventProvider.of<E>(context) ?? (_) => [];
+  Widget build(final BuildContext context) {
+    final eventProvider = DefaultEventProvider.of<E>(context) ?? (final _) => [];
 
     return Column(children: [
       DefaultEventProvider<E>(
-        eventProvider: (visibleDates) =>
-            eventProvider(visibleDates).where((it) => it.isAllDay).toList(),
+        eventProvider: (final visibleDates) =>
+            eventProvider(visibleDates).where((final it) => it.isAllDay).toList(),
         child: Builder(
-          builder: (context) => widget.headerBuilder(context, _leadingWidth),
+          builder: (final context) => widget.headerBuilder(context, _leadingWidth),
         ),
       ),
       Expanded(
         child: DefaultEventProvider<E>(
-          eventProvider: (visibleDates) =>
-              eventProvider(visibleDates).where((it) => it.isPartDay).toList(),
+          eventProvider: (final visibleDates) =>
+              eventProvider(visibleDates).where((final it) => it.isPartDay).toList(),
           child: Builder(
-            builder: (contxt) => widget.contentBuilder(
+            builder: (final contxt) => widget.contentBuilder(
               context,
-              (newWidth) => setState(() => _leadingWidth = newWidth),
+              (final newWidth) => setState(() => _leadingWidth = newWidth),
             ),
           ),
         ),
@@ -113,13 +113,13 @@ class _MultiDateTimetableState<E extends Event>
 
 class MultiDateTimetableHeader<E extends Event> extends StatelessWidget {
   MultiDateTimetableHeader({
-    Key? key,
-    Widget? leading,
-    DateWidgetBuilder? dateHeaderBuilder,
-    Widget? bottom,
+    final Key? key,
+    final Widget? leading,
+    final DateWidgetBuilder? dateHeaderBuilder,
+    final Widget? bottom,
   })  : leading = leading ?? Center(child: WeekIndicator.forController(null)),
         dateHeaderBuilder =
-            dateHeaderBuilder ?? ((context, date) => DateHeader(date)),
+            dateHeaderBuilder ?? ((final context, final date) => DateHeader(date)),
         bottom = bottom ?? MultiDateEventHeader<E>(),
         super(key: key);
 
@@ -128,7 +128,7 @@ class MultiDateTimetableHeader<E extends Event> extends StatelessWidget {
   final Widget bottom;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return Row(children: [
       leading,
       Expanded(
@@ -143,10 +143,10 @@ class MultiDateTimetableHeader<E extends Event> extends StatelessWidget {
 
 class MultiDateTimetableContent<E extends Event> extends StatelessWidget {
   MultiDateTimetableContent({
-    Key? key,
-    Widget? leading,
-    Widget? divider,
-    Widget? content,
+    final Key? key,
+    final Widget? leading,
+    final Widget? divider,
+    final Widget? content,
   })  : leading = leading ?? _defaultContentLeading,
         divider = divider ?? VerticalDivider(width: 0),
         content = content ?? MultiDateContent<E>(),
@@ -157,7 +157,7 @@ class MultiDateTimetableContent<E extends Event> extends StatelessWidget {
   final Widget content;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return Row(children: [
       leading,
       divider,
@@ -177,7 +177,7 @@ Widget _defaultContentLeading = TimeZoom(
   child: Padding(
     padding: EdgeInsets.symmetric(horizontal: 8),
     child: Builder(
-      builder: (context) => TimeIndicators.hours(
+      builder: (final context) => TimeIndicators.hours(
         // `TimeIndicators.hours` overwrites the style provider's labels by
         // default, but here we want the user's style provider from the ambient
         // theme to take precedence.
